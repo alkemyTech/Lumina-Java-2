@@ -35,5 +35,5 @@ public class Account {
     @Column(name="updateDate")
     private LocalDate updateDate;
     @Column(name="softDelete")
-    private Boolean softDelete;
+    private Boolean softDelete = false;
 }
