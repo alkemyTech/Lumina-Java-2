@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -49,4 +51,7 @@ public class UserModel {
 
     @Column(name = "softDelete")
     private Boolean softDelete = false;
+
+    @OneToMany(mappedBy = "user")
+    private List<Account> accountsList = new ArrayList();
 }
