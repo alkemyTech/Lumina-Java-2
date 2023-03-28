@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -30,10 +32,12 @@ public class Role {
     @CreationTimestamp
     @Column(name = "creationDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate creationDate = LocalDate.now();
+    private LocalDate creationDate;
     @UpdateTimestamp
     @Column(name = "updateDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateDate;
 
+    @OneToMany(mappedBy = "role")
+    private List<UserModel> userModelList = new ArrayList();
 }
