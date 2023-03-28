@@ -1,4 +1,4 @@
-package com.alkemy.wallet.entity;
+package com.alkemy.wallet.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
