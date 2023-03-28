@@ -30,7 +30,7 @@ public class Role {
     @CreationTimestamp
     @Column(name = "creationDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate creationDate = LocalDate.now();
+    private LocalDate creationDate;
     @UpdateTimestamp
     @Column(name = "updateDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
