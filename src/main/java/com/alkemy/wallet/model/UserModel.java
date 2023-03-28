@@ -9,35 +9,44 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Roles")
-public class Role {
+@Table(name = "Users")
+public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "roleId", nullable = false)
-    private Long roleId;
-    @Column(name = "name", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RoleName name;
+    @Column(name = "userId", nullable = false)
+    private Long userId;
 
-    @Column(name = "description", nullable = true)
-    private String description;
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @ManyToOne()
+    @JoinColumn(name = "roleId")
+    private Role role;
 
     @CreationTimestamp
     @Column(name = "creationDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
+
     @UpdateTimestamp
     @Column(name = "updateDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateDate;
 
-    @OneToMany(mappedBy = "role")
-    private List<UserModel> userModelList = new ArrayList();
+    @Column(name = "softDelete")
+    private Boolean softDelete = false;
 }
