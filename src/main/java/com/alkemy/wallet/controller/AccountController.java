@@ -17,11 +17,11 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    private AccountService accountServiceImpl;
+    private AccountService accountService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<List<AccountDTO>> accountsOfUser(@PathVariable Long userId){
-        return ResponseEntity.ok(accountServiceImpl.accountsOfUser(userId));
+        return ResponseEntity.ok(accountService.accountsOfUser(userId));
     }
 
 }
