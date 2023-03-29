@@ -1,8 +1,9 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.model.Account;
-import com.alkemy.wallet.service.impl.AccountServiceImpl;
+import com.alkemy.wallet.dto.AccountDTO;
+import com.alkemy.wallet.service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,22 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
 
     @Autowired
-    private AccountServiceImpl accountServiceImpl;
+    private AccountService accountServiceImpl;
 
     @GetMapping("/{userId}")
-    public List<Account> accountsOfUser(@PathVariable Long userId){
-        //TODO hacer que se verifique que el usuario es un administrador.
-        authorizeUser();
-        return accountServiceImpl.accountsOfUser(userId);
+    public ResponseEntity<List<AccountDTO>> accountsOfUser(@PathVariable Long userId){
+        return ResponseEntity.ok(accountServiceImpl.accountsOfUser(userId));
     }
 
-    //TODO Completar para que verifique que el usuario es un administrador
-    private boolean authorizeUser() {
-        return true;
-    }
 }
