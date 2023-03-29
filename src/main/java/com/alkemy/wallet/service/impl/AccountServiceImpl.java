@@ -1,5 +1,7 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.dto.AccountDTO;
+import com.alkemy.wallet.mapping.AccountMapping;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.service.service.AccountService;
@@ -14,7 +16,9 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public List<Account> accountsOfUser(Long userId){
-        return accountRepository.accountsOfUser(userId);
+    public List<AccountDTO> accountsOfUser(Long userId){
+        List<Account> accountsList = accountRepository.accountsOfUser(userId);
+        List<AccountDTO> ret = AccountMapping.convertEntityListToDtoList(accountsList);
+        return ret;
     }
 }
