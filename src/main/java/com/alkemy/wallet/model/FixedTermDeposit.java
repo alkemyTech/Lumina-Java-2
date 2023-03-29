@@ -23,8 +23,8 @@ public class FixedTermDeposit {
     private Long fixedTermDepositId;
     @Column(name="amount", nullable = false)
     private Double amount;
-    @Column(name="accountId", nullable = false)
-    private Long accountId;
+    @ManyToOne
+    private Account account;
     @Column(name="interest", nullable = false)
     private Double interest;
     @Column(name="creationDate")
