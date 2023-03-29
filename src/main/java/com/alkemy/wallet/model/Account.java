@@ -1,6 +1,7 @@
 package com.alkemy.wallet.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "accounts")
 @SQLDelete(sql = "UPDATE accounts SET softDelete=true WHERE accountId = ?")
 @Where(clause = "softDelete = false")
