@@ -16,6 +16,7 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Override
     public List<AccountDTO> accountsOfUser(Long userId){
         List<Account> accountsList = accountRepository.accountsOfUser(userId);
         List<AccountDTO> ret = AccountMapping.convertEntityListToDtoList(accountsList);
