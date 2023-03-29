@@ -18,8 +18,8 @@ public abstract class AccountMapping {
                 .creationDate(account.getCreationDate())
                 .updateDate(account.getUpdateDate())
                 .softDelete(account.getSoftDelete())
-                .transactionList(account.getTransactionList())
-                .fixedTermDepositList(account.getFixedTermDepositList())
+                .transactionList(null)
+                .fixedTermDepositList(null)
                 .build();
     }
 
