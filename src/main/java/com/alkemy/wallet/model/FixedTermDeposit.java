@@ -1,4 +1,4 @@
-package com.alkemy.wallet.entity;
+package com.alkemy.wallet.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +24,7 @@ public class FixedTermDeposit {
     @Column(name="amount", nullable = false)
     private Double amount;
     @ManyToOne
+    @JoinColumn(name = "accountId")
     private Account account;
     @Column(name="interest", nullable = false)
     private Double interest;
