@@ -44,4 +44,7 @@ public class Account {
 
     @Column(name="softDelete")
     private Boolean softDelete = false;
+
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactionList = new ArrayList ();
 }
