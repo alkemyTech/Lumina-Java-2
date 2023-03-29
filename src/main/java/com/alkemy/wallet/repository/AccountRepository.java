@@ -1,6 +1,6 @@
 package com.alkemy.wallet.repository;
 
-import com.alkemy.wallet.entity.Account;
+import com.alkemy.wallet.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
