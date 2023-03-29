@@ -47,4 +47,7 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactionList = new ArrayList ();
+
+    @OneToMany(mappedBy = "account")
+    private List<FixedTermDeposit> fixedTermDepositList = new ArrayList<>();
 }
