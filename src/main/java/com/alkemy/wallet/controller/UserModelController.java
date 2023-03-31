@@ -27,10 +27,9 @@ public class UserModelController {
         return userModelService.getUserList();
     }
 
-    @PostMapping
-    public ResponseEntity<UserModelResponseDTO> createUser(@Valid
-                                                           @RequestBody UserModelRequestDTO userModelRequestDTO) {
-
+    @PostMapping("auth/register")
+    public ResponseEntity<UserModelResponseDTO> createUser(
+            @Valid @RequestBody UserModelRequestDTO userModelRequestDTO) {
         return userModelService.createUser(userModelRequestDTO);
     }
 }

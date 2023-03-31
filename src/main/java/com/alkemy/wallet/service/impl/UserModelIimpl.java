@@ -3,10 +3,9 @@ package com.alkemy.wallet.service.impl;
 import com.alkemy.wallet.dto.requestDto.UserModelRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
 import com.alkemy.wallet.mapping.UserModelMapping;
-import com.alkemy.wallet.model.Account;
-import com.alkemy.wallet.model.Currency;
-import com.alkemy.wallet.model.UserModel;
+import com.alkemy.wallet.model.*;
 import com.alkemy.wallet.repository.UserModelRepository;
+import com.alkemy.wallet.service.service.RoleService;
 import com.alkemy.wallet.service.service.UserModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +23,9 @@ public class UserModelIimpl implements UserModelService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RoleService roleService;
+
     @Override
     public ResponseEntity<String> softDelete(Long userId) {
         userModelRepository.deleteById(userId);
@@ -37,7 +39,10 @@ public class UserModelIimpl implements UserModelService {
 
     @Override
     public ResponseEntity<UserModelResponseDTO> createUser(UserModelRequestDTO userModelRequestDTO) {
+
         UserModel newUser = (UserModelMapping.convertDtoToEntity(userModelRequestDTO));
+
+        newUser.setRole(roleService.getRoleByName(userModelRequestDTO.getRole()));
 
         setAccountToUser(newUser);
 

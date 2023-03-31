@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -41,19 +42,12 @@ public class UserModel {
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
-    @Pattern(regexp = "^\\\\w+[\\\\.\\\\w]*@[\\\\w]+([\\\\.\\\\w]+)+$", message = "Ingrese un mail valido")
+    @Pattern(regexp ="^[A-Za-z0-9+_.-]+@(.+)$", message = "Ingrese un mail valido")
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotNull(message = "el campo password no puede ser nulo")
-    @Pattern(regexp = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@#$%^&+=!])(?=.*[^\\s]).{8,20}$",
-            message = "La contraseña debe tener: " +
-                    " -al menos una letra mayúscula.\n" +
-                    " -al menos una letra minúscula.\n" +
-                    " -al menos un número.\n" +
-                    " -al menos un carácter especial, como @, #, $, etc.\n" +
-                    " -una longitud mínima y máxima especificada."
-    )
+    @NotBlank(message = "el campo password no tener espacios en blanco")
     private String password;
 
     @ManyToOne()
