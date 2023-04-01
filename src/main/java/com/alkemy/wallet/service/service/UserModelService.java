@@ -10,4 +10,6 @@ public interface UserModelService {
     ResponseEntity<String> softDelete (Long userId);
 
     ResponseEntity<List<UserModel>> getUserList();
+
+    UserModelDTO getUserById(Long idSender);
 }
