@@ -25,8 +25,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO getAccount(Long idSender) {
-        Optional<Account> account =  accountRepository.findById(idSender);
-        return AccountMapping.convertEntityToDto(account.get());
+    public AccountDTO getAccountById(Long idAccountAddressee) {
+        return AccountMapping.convertEntityToDto(accountRepository.findById(idAccountAddressee).get());
+    }
+
+    public Account getAccountEntityById(Long idAccountAddressee) {
+        return accountRepository.findById(idAccountAddressee).get();
+    }
+
+    @Override
+    public void pay(Long receiverAccountId, Integer amount) {
+        accountRepository.pay(receiverAccountId, amount);
+    }
+
+    @Override
+    public void discount(Long senderAccountId, Integer amount) {
+        accountRepository.discount(senderAccountId, amount);
     }
 }

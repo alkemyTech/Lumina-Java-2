@@ -7,5 +7,9 @@ import java.util.List;
 public interface AccountService {
     List<AccountDTO> accountsOfUser(Long userId);
 
-    AccountDTO getAccount(Long idSender);
+    AccountDTO getAccountById(Long idAccountAdressee);
+
+    void pay(Long receiverAccountId, Integer amount);
+
+    void discount(Long senderAccountId, Integer amount);
 }
