@@ -35,15 +35,13 @@ public abstract class UserModelMapping {
     }
 
     public static List<UserModelResponseDTO> convertEntityListToDtoList(List<UserModel> userModelList) {
-        List<UserModelResponseDTO> userModelResponseDTOList = new ArrayList<>();
-        userModelList.stream().map(u -> convertEntityToDTO(u)).collect(Collectors.toList());
-        return userModelResponseDTOList;
+       return userModelList.stream().map(u -> convertEntityToDTO(u)).collect(Collectors.toList());
+
     }
 
     public static List<UserModel> convertDTOListToEntityList(List<UserModelRequestDTO> userModelList) {
-        List<UserModel> userModelResponseDTOList = new ArrayList<>();
-        userModelList.stream().map(u -> convertDtoToEntity(u)).collect(Collectors.toList());
-        return userModelResponseDTOList;
+        return userModelList.stream().map(u -> convertDtoToEntity(u)).collect(Collectors.toList());
+
     }
 
 }
