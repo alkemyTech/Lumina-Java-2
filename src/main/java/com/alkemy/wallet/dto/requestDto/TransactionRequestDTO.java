@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TransactionDTORequest {
+public class TransactionRequestDTO {
     private Long receiverAccountId;
     private Integer amount;
     private String type;

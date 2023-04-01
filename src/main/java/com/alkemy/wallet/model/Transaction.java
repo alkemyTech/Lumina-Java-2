@@ -2,8 +2,10 @@ package com.alkemy.wallet.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "Transactions")
 public class Transaction {
 
@@ -33,6 +36,7 @@ public class Transaction {
     @JoinColumn(name = "acoountId")
     private Account account;
 
+    @CreationTimestamp
     @Column(name = "creationDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
