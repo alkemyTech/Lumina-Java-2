@@ -1,6 +1,5 @@
 package com.alkemy.wallet.dto.requestDto;
 
-import com.alkemy.wallet.model.Type;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class TransactionDTORequest {
-    private Long idAccountAdressee;
+    private Long receiverAccountId;
     private Integer amount;
-    private Type type;
+    private String type;
 }
