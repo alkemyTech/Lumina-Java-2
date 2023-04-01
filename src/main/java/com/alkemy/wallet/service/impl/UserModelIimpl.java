@@ -39,8 +39,8 @@ public class UserModelIimpl implements UserModelService {
     }
 
     @Override
-    public UserModelDTO getUserById(Long idSender) {
-        return UserModelMapping.convertEntityToDto(userModelRepository.findById(idSender).get());
+    public UserModelResponseDTO getUserById(Long idSender) {
+        return UserModelMapping.convertEntityToDTO(userModelRepository.findById(idSender).get());
     }
 
     public ResponseEntity<UserModelResponseDTO> createUser(UserModelRequestDTO userModelRequestDTO) {
