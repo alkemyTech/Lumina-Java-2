@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -21,5 +22,11 @@ public class AccountServiceImpl implements AccountService {
         List<Account> accountsList = accountRepository.accountsOfUser(userId);
         List<AccountDTO> ret = AccountMapping.convertEntityListToDtoList(accountsList);
         return ret;
+    }
+
+    @Override
+    public AccountDTO getAccount(Long idSender) {
+        Optional<Account> account =  accountRepository.findById(idSender);
+        return AccountMapping.convertEntityToDto(account.get());
     }
 }
