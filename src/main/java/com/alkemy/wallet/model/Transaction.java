@@ -20,6 +20,9 @@ public class Transaction {
     @Column(name = "transaccionId", nullable = false)
     private Long transactionId;
 
+    @Column(name = "amount", nullable = false)
+    private Integer amount;
+
     @Column(name = "Type", nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
