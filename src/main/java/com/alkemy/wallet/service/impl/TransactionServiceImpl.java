@@ -47,6 +47,16 @@ public class TransactionServiceImpl implements TransactionService {
         generateTransaction(senderAccount, receiverAccount, transactionRequestDTO);
     }
 
+    @Override
+    public void editTransactionDescription(Long transactionId, String description) {
+        Transaction transaction = transactionRepository.findById(transactionId).get();
+        if(transaction == null){
+            //TODO throw error...
+        }
+        transaction.setDescription(description);
+        transactionRepository.save(transaction);
+    }
+
     //TODO add throws
     private void generateTransaction(AccountDTO senderAccount, AccountDTO receiverAccount, TransactionRequestDTO transactionRequestDTO){
         checkTransaction(senderAccount, transactionRequestDTO);

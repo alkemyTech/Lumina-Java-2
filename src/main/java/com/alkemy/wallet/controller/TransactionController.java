@@ -17,4 +17,10 @@ public class TransactionController {
         transactionService.sendUsd(transactionRequestDTO, idSender);
         return null;
     }
+
+    @PatchMapping("/{transactionId}")
+    public void editTransactionDescription(@PathVariable Long transactionId, @RequestBody String description){
+        //TODO throw error in case not exists
+        transactionService.editTransactionDescription(transactionId, description);
+    }
 }
