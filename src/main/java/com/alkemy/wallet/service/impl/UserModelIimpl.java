@@ -56,6 +56,11 @@ public class UserModelIimpl implements UserModelService {
         return ResponseEntity.status(HttpStatus.CREATED).body(UserModelMapping.convertEntityToDTO(userModelRepository.save(newUser)));
     }
 
+    @Override
+    public UserModel getUserEntityById(Long userId) {
+        return userModelRepository.findById(userId).get();
+    }
+
     private void setAccountToUser(UserModel user) {
         Account USDAcount = new Account();
         Account ARSAcount = new Account();
