@@ -10,9 +10,8 @@ import java.util.List;
 
 public interface UserModelService {
     ResponseEntity<String> softDelete (Long userId);
-
     ResponseEntity<List<UserModel>> getUserList();
-
+    UserModelResponseDTO getUserById(Long idSender);
     ResponseEntity<UserModelResponseDTO> createUser (UserModelRequestDTO userModelRequestDTO);
-
+    UserModel getUserEntityById(Long userId);
 }
