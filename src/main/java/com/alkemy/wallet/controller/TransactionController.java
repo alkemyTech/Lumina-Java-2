@@ -19,8 +19,7 @@ public class TransactionController {
     }
 
     @PatchMapping("/{transactionId}")
-    public void editTransactionDescription(@PathVariable Long transactionId, @RequestBody String description){
-        //TODO throw error in case not exists
-        transactionService.editTransactionDescription(transactionId, description);
+    public void editTransactionDescription(@PathVariable Long transactionId, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
+        transactionService.editTransactionDescription(transactionId, transactionRequestDTO);
     }
 }

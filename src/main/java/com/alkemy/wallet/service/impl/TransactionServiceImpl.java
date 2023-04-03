@@ -1,5 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.Exception.GlobalHandlerException;
 import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
@@ -48,12 +49,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void editTransactionDescription(Long transactionId, String description) {
+    public void editTransactionDescription(Long transactionId, TransactionRequestDTO transactionRequestDTO) throws Exception{
         Transaction transaction = transactionRepository.findById(transactionId).get();
         if(transaction == null){
-            //TODO throw error...
+            throw new Exception("La transaction especificada no existe.");
         }
-        transaction.setDescription(description);
+        transaction.setDescription(transactionRequestDTO.getDescription());
         transactionRepository.save(transaction);
     }
 
