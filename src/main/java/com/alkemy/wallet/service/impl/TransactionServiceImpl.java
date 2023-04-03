@@ -2,7 +2,9 @@ package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
+import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
 import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
+import com.alkemy.wallet.mapping.TransactionMapping;
 import com.alkemy.wallet.model.Currency;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.model.Type;
@@ -26,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private UserModelService userModelService;
     @Override
-    public void sendUsd(TransactionRequestDTO transactionRequestDTO, Long senderUserId) throws Exception {
+    public TransactionResponseDTO sendUsd(TransactionRequestDTO transactionRequestDTO, Long senderUserId) throws Exception {
         Long receiverUserId = transactionRequestDTO.getReceiverAccountId();
         UserModel userSender = userModelService.getUserEntityById(senderUserId);
         UserModel userReceiver = userModelService.getUserEntityById(receiverUserId);
@@ -42,7 +44,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         AccountDTO receiverAccount = accountService.getAccountById(transactionRequestDTO.getReceiverAccountId());
 
-        generateTransaction(senderAccount, receiverAccount, transactionRequestDTO);
+        return generateTransaction(senderAccount, receiverAccount, transactionRequestDTO);
     }
 
     private void equalUsers(Long senderUserId, Long receiverUserId) throws Exception {
@@ -57,8 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-    //TODO add throws
-    private void generateTransaction(AccountDTO senderAccount, AccountDTO receiverAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
+    private TransactionResponseDTO generateTransaction(AccountDTO senderAccount, AccountDTO receiverAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
         checkTransaction(senderAccount, transactionRequestDTO);
 
         StringBuilder description = new StringBuilder();
@@ -79,11 +80,10 @@ public class TransactionServiceImpl implements TransactionService {
 
         accountService.pay(receiverAccount.getAccountId(), transactionRequestDTO.getAmount());
         accountService.discount(senderAccount.getAccountId(), transactionRequestDTO.getAmount());
-        
-        transactionRepository.save(newTransaction);
+
+        return TransactionMapping.convertEntityToDto(transactionRepository.save(newTransaction));
     }
 
-    //TODO add throws
     private void checkTransaction(AccountDTO senderAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
         if(senderAccount.getBalance() < transactionRequestDTO.getAmount()){
             throw new Exception("No tiene sufiente plata para la transaccion.");
