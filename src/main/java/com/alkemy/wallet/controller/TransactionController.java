@@ -22,4 +22,14 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+
+    @PostMapping("/sendArs/{idSender}")
+    public ResponseEntity<TransactionResponseDTO> sendArs(@PathVariable Long idSender, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
+        try {
+            return ResponseEntity.ok(transactionService.sendArs(transactionRequestDTO, idSender));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 }
