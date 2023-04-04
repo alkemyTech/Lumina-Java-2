@@ -1,16 +1,12 @@
 package com.alkemy.wallet.service.impl;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
-import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
 import com.alkemy.wallet.mapping.TransactionMapping;
-import com.alkemy.wallet.model.Currency;
-import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.model.Type;
-import com.alkemy.wallet.model.UserModel;
+import com.alkemy.wallet.model.*;
 import com.alkemy.wallet.repository.TransactionRepository;
+import com.alkemy.wallet.service.service.AccountService;
 import com.alkemy.wallet.service.service.TransactionService;
 import com.alkemy.wallet.service.service.UserModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +20,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
-    private AccountServiceImpl accountService;
+    private AccountService accountService;
 
     @Autowired
     private UserModelService userModelService;
@@ -51,12 +47,12 @@ public class TransactionServiceImpl implements TransactionService {
         equalUsers(senderUserId, receiverUserId);
 
 
-        AccountDTO senderAccount = accountService.accountsOfUser(senderUserId)
+        Account senderAccount = accountService.accountsEntityOfUser(senderUserId)
                 .stream()
                 .filter(account -> account.getCurrency().name().equals(currency))
                 .findAny().get();
 
-        AccountDTO receiverAccount = accountService.getAccountById(transactionRequestDTO.getReceiverAccountId());
+        Account receiverAccount = accountService.getAccountEntityById(transactionRequestDTO.getReceiverAccountId());
 
         return generateTransaction(senderAccount, receiverAccount, transactionRequestDTO);
     }
@@ -74,7 +70,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-    private TransactionResponseDTO generateTransaction(AccountDTO senderAccount, AccountDTO receiverAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
+    private TransactionResponseDTO generateTransaction(Account senderAccount, Account receiverAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
         checkTransaction(senderAccount, transactionRequestDTO);
 
         StringBuilder description = new StringBuilder();
@@ -93,13 +89,13 @@ public class TransactionServiceImpl implements TransactionService {
                 .account(accountService.getAccountEntityById(receiverAccount.getAccountId()))
                 .build();
 
-        accountService.pay(receiverAccount.getAccountId(), transactionRequestDTO.getAmount());
-        accountService.discount(senderAccount.getAccountId(), transactionRequestDTO.getAmount());
+        accountService.pay(receiverAccount, transactionRequestDTO.getAmount());
+        accountService.discount(senderAccount, transactionRequestDTO.getAmount());
 
         return TransactionMapping.convertEntityToDto(transactionRepository.save(newTransaction));
     }
 
-    private void checkTransaction(AccountDTO senderAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
+    private void checkTransaction(Account senderAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
         if(senderAccount.getBalance() < transactionRequestDTO.getAmount()){
             throw new Exception("No tiene sufiente plata para la transaccion.");
         }

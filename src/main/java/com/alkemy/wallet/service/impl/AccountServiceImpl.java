@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -34,12 +33,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void pay(Long receiverAccountId, Integer amount) {
-        accountRepository.pay(receiverAccountId, amount);
+    public List<Account> accountsEntityOfUser(Long userId) {
+        List<Account> ret = accountRepository.accountsOfUser(userId);
+        return ret;
     }
 
     @Override
-    public void discount(Long senderAccountId, Integer amount) {
-        accountRepository.discount(senderAccountId, amount);
+    public void pay(Account receiverAccount, Integer amount) {
+        receiverAccount.setBalance(receiverAccount.getBalance() + amount);
+        accountRepository.save(receiverAccount);
+    }
+
+    @Override
+    public void discount(Account senderAccount, Integer amount) {
+        senderAccount.setBalance(senderAccount.getBalance() - amount);
+        accountRepository.save(senderAccount);
     }
 }
