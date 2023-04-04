@@ -4,7 +4,6 @@ import com.alkemy.wallet.dto.requestDto.UserModelRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
 import com.alkemy.wallet.model.UserModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +15,7 @@ public abstract class UserModelMapping {
                 .lastName(userModel.getLastName())
                 .email(userModel.getEmail())
                 .password(userModel.getPassword())
+                .role(userModel.getRole().getName().toString())
                 .creationDate(userModel.getCreationDate())
                 .updateDate(userModel.getUpdateDate())
                 .softDelete(userModel.getSoftDelete())
@@ -35,7 +35,7 @@ public abstract class UserModelMapping {
     }
 
     public static List<UserModelResponseDTO> convertEntityListToDtoList(List<UserModel> userModelList) {
-       return userModelList.stream().map(u -> convertEntityToDTO(u)).collect(Collectors.toList());
+        return userModelList.stream().map(u -> convertEntityToDTO(u)).collect(Collectors.toList());
 
     }
 
