@@ -1,5 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
+import ch.qos.logback.core.joran.conditional.IfAction;
 import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
@@ -29,23 +30,37 @@ public class TransactionServiceImpl implements TransactionService {
     private UserModelService userModelService;
     @Override
     public TransactionResponseDTO sendUsd(TransactionRequestDTO transactionRequestDTO, Long senderUserId) throws Exception {
+        String currency = Currency.USD.name();
+        return send(transactionRequestDTO,senderUserId, currency);
+    }
+
+    @Override
+    public TransactionResponseDTO sendArs(TransactionRequestDTO transactionRequestDTO, Long senderUserId) throws Exception {
+        String currency = Currency.ARS.name();
+        return send(transactionRequestDTO,senderUserId,currency);
+    }
+
+    public TransactionResponseDTO send(TransactionRequestDTO transactionRequestDTO, Long senderUserId,String currency) throws Exception {
         Long receiverUserId = transactionRequestDTO.getReceiverAccountId();
         UserModel userSender = userModelService.getUserEntityById(senderUserId);
         UserModel userReceiver = userModelService.getUserEntityById(receiverUserId);
+
 
         existsUser(userSender);
         existsUser(userReceiver);
         equalUsers(senderUserId, receiverUserId);
 
+
         AccountDTO senderAccount = accountService.accountsOfUser(senderUserId)
                 .stream()
-                .filter(account -> account.getCurrency().name().equals(Currency.USD.name()))
+                .filter(account -> account.getCurrency().name().equals(currency))
                 .findAny().get();
 
         AccountDTO receiverAccount = accountService.getAccountById(transactionRequestDTO.getReceiverAccountId());
 
         return generateTransaction(senderAccount, receiverAccount, transactionRequestDTO);
     }
+
 
     private void equalUsers(Long senderUserId, Long receiverUserId) throws Exception {
         if(senderUserId == receiverUserId){
