@@ -14,22 +14,22 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping("/sendUsd/{idSender}")
-    public ResponseEntity<TransactionResponseDTO> sendUsd(@PathVariable Long idSender, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
+    public ResponseEntity<?> sendUsd(@PathVariable Long idSender, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
         try {
             return ResponseEntity.ok(transactionService.sendUsd(transactionRequestDTO, idSender));
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
 
     @PostMapping("/sendArs/{idSender}")
-    public ResponseEntity<TransactionResponseDTO> sendArs(@PathVariable Long idSender, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
+    public ResponseEntity<?> sendArs(@PathVariable Long idSender, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
         try {
             return ResponseEntity.ok(transactionService.sendArs(transactionRequestDTO, idSender));
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
 }
