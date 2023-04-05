@@ -13,10 +13,4 @@ import java.util.List;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query(value = "SELECT * from accounts WHERE userId = :userId AND softDelete = false", nativeQuery = true)
     List<Account> accountsOfUser(@Param(value = "userId") Long userId);
-
-    @Query(value = "UPDATE accounts SET balance = balance + :amount WHERE accountId = :accountId")
-    void pay(@Param(value = "accountId")Long accountId,@Param(value = "amount") Integer amount);
-
-    @Query(value = "UPDATE accounts SET balance = balance - :amount WHERE accountId = :accountId")
-    void discount(@Param(value = "accountId")Long accountId,@Param(value = "amount") Integer amount);
 }

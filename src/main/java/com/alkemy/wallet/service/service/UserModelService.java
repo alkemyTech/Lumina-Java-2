@@ -13,4 +13,5 @@ public interface UserModelService {
     ResponseEntity<List<UserModel>> getUserList();
     UserModelResponseDTO getUserById(Long idSender);
     ResponseEntity<UserModelResponseDTO> createUser (UserModelRequestDTO userModelRequestDTO);
+    UserModel getUserEntityById(Long userId);
 }
