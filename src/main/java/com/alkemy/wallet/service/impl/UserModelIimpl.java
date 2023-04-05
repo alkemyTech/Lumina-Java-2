@@ -4,7 +4,9 @@ import com.alkemy.wallet.model.UserModel;
 import com.alkemy.wallet.dto.requestDto.UserModelRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
 import com.alkemy.wallet.mapping.UserModelMapping;
-import com.alkemy.wallet.model.*;
+import com.alkemy.wallet.model.Account;
+import com.alkemy.wallet.model.Currency;
+import com.alkemy.wallet.model.UserModel;
 import com.alkemy.wallet.repository.UserModelRepository;
 import com.alkemy.wallet.service.service.RoleService;
 import com.alkemy.wallet.service.service.UserModelService;
@@ -54,6 +56,11 @@ public class UserModelIimpl implements UserModelService {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(UserModelMapping.convertEntityToDTO(userModelRepository.save(newUser)));
+    }
+
+    @Override
+    public UserModel getUserEntityById(Long userId) {
+        return userModelRepository.findById(userId).get();
     }
 
     private void setAccountToUser(UserModel user) {

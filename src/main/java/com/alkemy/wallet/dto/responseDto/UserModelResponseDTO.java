@@ -23,6 +23,8 @@ public class UserModelResponseDTO {
 
     private String password;
 
+    private String role;
+
     private LocalDate creationDate;
 
     private LocalDate updateDate;
