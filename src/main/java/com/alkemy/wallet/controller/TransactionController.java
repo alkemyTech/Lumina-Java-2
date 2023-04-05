@@ -45,4 +45,14 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
+
+    @PostMapping("/transactions/deposit")
+    public  ResponseEntity<?> makeDeposit(@RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
+        try{
+            return ResponseEntity.ok(transactionService.makeDeposit(transactionRequestDTO));
+
+        }catch ( Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
+        }
+    }
 }
