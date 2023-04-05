@@ -11,4 +11,6 @@ public class TransactionRequestDTO {
     private Long receiverAccountId;
     private Integer amount;
     private String type;
+
+    private String description;
 }

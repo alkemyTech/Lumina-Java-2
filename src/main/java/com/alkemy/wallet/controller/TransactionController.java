@@ -45,4 +45,9 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
+
+    @PatchMapping("/{transactionId}")
+    public void editTransactionDescription(@PathVariable Long transactionId, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
+        transactionService.editTransactionDescription(transactionId, transactionRequestDTO);
+    }
 }

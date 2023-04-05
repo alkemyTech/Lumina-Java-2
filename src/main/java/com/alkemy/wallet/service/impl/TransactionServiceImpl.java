@@ -32,6 +32,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public void editTransactionDescription(Long transactionId, TransactionRequestDTO transactionRequestDTO) throws Exception{
+        Transaction transaction = transactionRepository.findById(transactionId).get();
+        if(transaction == null){
+            throw new Exception("La transaction especificada no existe.");
+        }
+        transaction.setDescription(transactionRequestDTO.getDescription());
+        transactionRepository.save(transaction);
+    }
     public List<TransactionResponseDTO> sendArs(TransactionRequestDTO transactionRequestDTO, Long senderUserId) throws Exception {
         String currency = Currency.ARS.name();
         return send(transactionRequestDTO,senderUserId,currency);
@@ -140,7 +148,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private void checkTransaction(Account senderAccount, TransactionRequestDTO transactionRequestDTO) throws Exception {
         if(senderAccount.getBalance() < transactionRequestDTO.getAmount()){
-            throw new Exception("No tiene sufiente plata para la transaccion.");
+            throw new Exception("No tiene suficiente dinero para realizar la transaccion.");
         }
         if(senderAccount.getTransactionLimit() < transactionRequestDTO.getAmount()){
             throw new Exception("El valor indicado para la transaccion excede su limite de cuenta.");
