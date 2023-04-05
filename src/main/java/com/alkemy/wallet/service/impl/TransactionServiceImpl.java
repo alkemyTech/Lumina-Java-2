@@ -37,6 +37,22 @@ public class TransactionServiceImpl implements TransactionService {
         return send(transactionRequestDTO,senderUserId,currency);
     }
 
+    @Override
+    public List<TransactionResponseDTO> trasactionList(long userId) throws Exception {
+        UserModel user = userModelService.getUserEntityById(userId);
+        if (user == null){
+            throw new Exception("El usuario no fue encontrado");
+        }
+        List<TransactionResponseDTO> transactionResponseDTOList = new ArrayList<>();
+        List<Account> accountUser = user.getAccountsList();
+        for (Account account:accountUser
+             ) {
+         transactionResponseDTOList.addAll(TransactionMapping.convertEntityListToDtoList( account.getTransactionList()));
+
+        }
+        return transactionResponseDTOList;
+    }
+
     public List<TransactionResponseDTO> send(TransactionRequestDTO transactionRequestDTO, Long senderUserId,String currency) throws Exception {
         Long receiverUserId = transactionRequestDTO.getReceiverAccountId();
         UserModel userSender = userModelService.getUserEntityById(senderUserId);

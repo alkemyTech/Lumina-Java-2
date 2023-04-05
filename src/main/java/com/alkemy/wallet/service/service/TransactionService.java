@@ -9,4 +9,6 @@ public interface TransactionService {
     List<TransactionResponseDTO> sendUsd(TransactionRequestDTO transactionRequestDTO, Long userId) throws Exception;
 
     List<TransactionResponseDTO> sendArs(TransactionRequestDTO transactionRequestDTO, Long userId) throws Exception;
+
+    List<TransactionResponseDTO> trasactionList(long userId) throws Exception;
 }
