@@ -1,8 +1,8 @@
 package com.alkemy.wallet.service.service;
 
 import com.alkemy.wallet.dto.AccountDTO;
+import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
 import com.alkemy.wallet.model.Account;
-import org.springframework.beans.PropertyValues;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ public interface AccountService {
     AccountDTO getAccountById(Long idAccountAdressee);
 
     void pay(Account receiverAccountId, Integer amount);
+
+    BalanceResponseDTO getBalance(Long userId);
 
     void discount(Account senderAccountId, Integer amount);
 
