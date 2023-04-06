@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class UserModelResponseDTO {
+public class UserEntityResponseDTO {
     private Long userId;
 
     private String firstName;
