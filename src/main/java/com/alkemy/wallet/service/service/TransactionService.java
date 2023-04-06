@@ -12,4 +12,6 @@ public interface TransactionService {
     List<TransactionResponseDTO> sendArs(TransactionRequestDTO transactionRequestDTO, Long userId) throws Exception;
 
     List<TransactionResponseDTO> trasactionList(long userId) throws Exception;
+
+    TransactionResponseDTO makeDeposit(TransactionRequestDTO transactionRequestDTO) throws Exception;
 }

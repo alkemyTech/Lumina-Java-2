@@ -61,6 +61,21 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionResponseDTOList;
     }
 
+    @Override
+    public TransactionResponseDTO makeDeposit(TransactionRequestDTO transactionRequestDTO) throws Exception {
+        Account account = accountService.getAccountEntityById(transactionRequestDTO.getReceiverAccountId());
+
+        if (transactionRequestDTO.getAmount() <= 0){
+            throw new Exception("El monto depositado debe ser mayor a 0");
+        }
+
+        accountService.pay(account,transactionRequestDTO.getAmount());
+
+
+        return TransactionMapping.convertEntityToDto(generateDeposit(account,transactionRequestDTO));
+    }
+
+
     public List<TransactionResponseDTO> send(TransactionRequestDTO transactionRequestDTO, Long senderUserId,String currency) throws Exception {
         Long receiverUserId = transactionRequestDTO.getReceiverAccountId();
         UserModel userSender = userModelService.getUserEntityById(senderUserId);
@@ -142,6 +157,25 @@ public class TransactionServiceImpl implements TransactionService {
                 .type(Type.PAYMENT)
                 .description(description.toString())
                 .account(accountService.getAccountEntityById(senderAccount.getAccountId()))
+                .build();
+        return transactionRepository.save(newTransaction);
+    }
+
+    private Transaction generateDeposit(Account account,TransactionRequestDTO transactionRequestDTO){
+        StringBuilder description = new StringBuilder();
+        description.append("Se Deposito")
+                .append(transactionRequestDTO.getAmount())
+                .append(" a la cuenta de ")
+                .append(account.getUser().getFirstName())
+                .append(" ")
+                .append(account.getUser().getLastName())
+                .append(" en la fecha ")
+                .append(LocalDate.now().toString());
+
+        Transaction newTransaction = Transaction.builder()
+                .type(Type.DEPOSIT)
+                .description(description.toString())
+                .account(accountService.getAccountEntityById(account.getAccountId()))
                 .build();
         return transactionRepository.save(newTransaction);
     }
