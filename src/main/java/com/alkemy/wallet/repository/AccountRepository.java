@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
-    @Query(value = "SELECT * from accounts WHERE userId = :userId AND softDelete = false", nativeQuery = true)
+    @Query(value = "SELECT * from accounts WHERE user-id = :userId AND soft_delete = false", nativeQuery = true)
     List<AccountEntity> accountsOfUser(@Param(value = "userId") Long userId);
 }
