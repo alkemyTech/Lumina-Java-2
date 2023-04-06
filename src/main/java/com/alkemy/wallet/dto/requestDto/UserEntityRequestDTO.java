@@ -1,6 +1,6 @@
 package com.alkemy.wallet.dto.requestDto;
 
-import com.alkemy.wallet.model.Account;
+import com.alkemy.wallet.model.AccountEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class UserModelRequestDTO {
+public class UserEntityRequestDTO {
     @NotNull(message = "el campo firstName no puede ser nulo")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras ni estar vacio.")
     private String firstName;
@@ -34,5 +34,5 @@ public class UserModelRequestDTO {
 
     private LocalDate updateDate;
 
-    private List<Account> accountsList = new ArrayList();
+    private List<AccountEntity> accountsList = new ArrayList();
 }

@@ -1,30 +1,30 @@
 package com.alkemy.wallet.mapping;
 
 import com.alkemy.wallet.dto.AccountDTO;
-import com.alkemy.wallet.model.Account;
+import com.alkemy.wallet.model.AccountEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AccountMapping {
 
-    public static AccountDTO convertEntityToDto(Account account){
+    public static AccountDTO convertEntityToDto(AccountEntity accountEntity){
         return AccountDTO.builder()
-                .accountId(account.getAccountId())
-                .currency(account.getCurrency())
-                .transactionLimit(account.getTransactionLimit())
-                .balance(account.getBalance())
-                .user(account.getUser())
-                .creationDate(account.getCreationDate())
-                .updateDate(account.getUpdateDate())
-                .softDelete(account.getSoftDelete())
-                .transactionList(null)
-                .fixedTermDepositList(null)
+                .accountId(accountEntity.getAccountId())
+                .currency(accountEntity.getCurrency())
+                .transactionLimit(accountEntity.getTransactionLimit())
+                .balance(accountEntity.getBalance())
+                .user(accountEntity.getUser())
+                .creationDate(accountEntity.getCreationDate())
+                .updateDate(accountEntity.getUpdateDate())
+                .softDelete(accountEntity.getSoftDelete())
+                .transactionEntityList(null)
+                .fixedTermDepositEntityList(null)
                 .build();
     }
 
-    public static Account convertDtoToEntity(AccountDTO accountDTO){
-        return Account.builder()
+    public static AccountEntity convertDtoToEntity(AccountDTO accountDTO){
+        return AccountEntity.builder()
                 .currency(accountDTO.getCurrency())
                 .transactionLimit(accountDTO.getTransactionLimit())
                 .balance(accountDTO.getBalance())
@@ -32,16 +32,16 @@ public abstract class AccountMapping {
                 .build();
     }
 
-    public static List<AccountDTO> convertEntityListToDtoList(List<Account> accountList){
-        List<AccountDTO> ret = new ArrayList<>(accountList.size());
-        for(Account account : accountList){
-            ret.add(convertEntityToDto(account));
+    public static List<AccountDTO> convertEntityListToDtoList(List<AccountEntity> accountEntityList){
+        List<AccountDTO> ret = new ArrayList<>(accountEntityList.size());
+        for(AccountEntity accountEntity : accountEntityList){
+            ret.add(convertEntityToDto(accountEntity));
         }
         return ret;
     }
 
-    public static List<Account> convertDTOListToEntityList(List<AccountDTO> accountDtoList){
-        List<Account> ret = new ArrayList<>(accountDtoList.size());
+    public static List<AccountEntity> convertDTOListToEntityList(List<AccountDTO> accountDtoList){
+        List<AccountEntity> ret = new ArrayList<>(accountDtoList.size());
         for(AccountDTO accountDto : accountDtoList){
             ret.add(convertDtoToEntity(accountDto));
         }

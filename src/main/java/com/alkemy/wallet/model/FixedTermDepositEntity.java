@@ -16,24 +16,24 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "fixed_term_deposits")
-@SQLDelete(sql = "UPDATE fixed_term_deposits SET softDelete=true WHERE fixed_term_depositsId = ?")
-@Where(clause = "softDelete = false")
-public class FixedTermDeposit {
+@SQLDelete(sql = "UPDATE fixed_term_deposits SET soft_delete=true WHERE fixed_term_deposits_id = ?")
+@Where(clause = "soft_delete = false")
+public class FixedTermDepositEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="fixed_term_depositsId", nullable = false)
+    @Column(name="fixed_term_deposits_id", nullable = false)
     private Long fixedTermDepositId;
     @Column(name="amount", nullable = false)
     private Double amount;
     @ManyToOne
-    @JoinColumn(name = "accountId")
-    private Account account;
+    @JoinColumn(name = "account_id")
+    private AccountEntity accountEntity;
     @Column(name="interest", nullable = false)
     private Double interest;
-    @Column(name="creationDate")
+    @Column(name="creation_date")
     private LocalDate creationDate;
-    @Column(name="closingDate")
+    @Column(name="closing_date")
     private LocalDate closingDate;
-    @Column(name="softDelete")
+    @Column(name="soft_delete")
     private Boolean softDelete = false;
 }

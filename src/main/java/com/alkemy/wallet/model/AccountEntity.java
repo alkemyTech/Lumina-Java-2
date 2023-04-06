@@ -18,38 +18,38 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "accounts")
-@SQLDelete(sql = "UPDATE accounts SET softDelete=true WHERE accountId = ?")
-@Where(clause = "softDelete = false")
-public class Account {
+@SQLDelete(sql = "UPDATE accounts SET soft_delete=true WHERE account_id = ?")
+@Where(clause = "soft_delete = false")
+public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="accountId", nullable = false)
+    @Column(name="account_id", nullable = false)
     private Long accountId;
 
     @Column(name="currency", nullable = false)
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
-    @Column(name="transactionLimit", nullable = false)
+    @Column(name="transaction_limit", nullable = false)
     private Double transactionLimit;
 
     @Column(name="balance", nullable = false)
     private Double balance;
     @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserModel user;
-    @Column(name="creationDate")
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+    @Column(name="creation_date")
     private LocalDate creationDate;
 
-    @Column(name="updateDate")
+    @Column(name="update_date")
     private LocalDate updateDate;
 
-    @Column(name="softDelete")
+    @Column(name="soft_delete")
     private Boolean softDelete = false;
 
-    @OneToMany(mappedBy = "account")
-    private List<Transaction> transactionList = new ArrayList ();
+    @OneToMany(mappedBy = "accountEntity")
+    private List<TransactionEntity> transactionEntityList = new ArrayList ();
 
-    @OneToMany(mappedBy = "account")
-    private List<FixedTermDeposit> fixedTermDepositList = new ArrayList<>();
+    @OneToMany(mappedBy = "accountEntity")
+    private List<FixedTermDepositEntity> fixedTermDepositEntityList = new ArrayList<>();
 }

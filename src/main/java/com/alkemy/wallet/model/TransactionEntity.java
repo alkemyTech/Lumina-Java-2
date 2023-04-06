@@ -16,11 +16,11 @@ import java.time.LocalDate;
 @Entity
 @Builder
 @Table(name = "Transactions")
-public class Transaction {
+public class TransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaccionId", nullable = false)
+    @Column(name = "transaccion_id", nullable = false)
     private Long transactionId;
 
     @Column(name = "amount", nullable = false)
@@ -33,11 +33,11 @@ public class Transaction {
     @Column(name = "description", nullable = true)
     private String description;
     @ManyToOne
-    @JoinColumn(name = "acoountId")
-    private Account account;
+    @JoinColumn(name = "acoount_id")
+    private AccountEntity accountEntity;
 
     @CreationTimestamp
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
 

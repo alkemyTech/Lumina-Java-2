@@ -4,7 +4,7 @@ import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
 import com.alkemy.wallet.dto.responseDto.FixedTermDepositResponseDTO;
 import com.alkemy.wallet.mapping.AccountMapping;
-import com.alkemy.wallet.model.Account;
+import com.alkemy.wallet.model.AccountEntity;
 import com.alkemy.wallet.model.Currency;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.service.service.AccountService;
@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> accountsOfUser(Long userId){
-        List<Account> accountsList = accountRepository.accountsOfUser(userId);
+        List<AccountEntity> accountsList = accountRepository.accountsOfUser(userId);
         List<AccountDTO> ret = AccountMapping.convertEntityListToDtoList(accountsList);
         return ret;
     }
@@ -36,26 +36,26 @@ public class AccountServiceImpl implements AccountService {
         return AccountMapping.convertEntityToDto(accountRepository.findById(idAccountAddressee).get());
     }
 
-    public Account getAccountEntityById(Long idAccountAddressee) {
+    public AccountEntity getAccountEntityById(Long idAccountAddressee) {
         return accountRepository.findById(idAccountAddressee).get();
     }
 
     @Override
-    public List<Account> accountsEntityOfUser(Long userId) {
-        List<Account> ret = accountRepository.accountsOfUser(userId);
+    public List<AccountEntity> accountsEntityOfUser(Long userId) {
+        List<AccountEntity> ret = accountRepository.accountsOfUser(userId);
         return ret;
     }
 
     @Override
-    public void pay(Account receiverAccount, Integer amount) {
-        receiverAccount.setBalance(receiverAccount.getBalance() + amount);
-        accountRepository.save(receiverAccount);
+    public void pay(AccountEntity receiverAccountEntity, Integer amount) {
+        receiverAccountEntity.setBalance(receiverAccountEntity.getBalance() + amount);
+        accountRepository.save(receiverAccountEntity);
     }
 
     @Override
-    public void discount(Account senderAccount, Integer amount) {
-        senderAccount.setBalance(senderAccount.getBalance() - amount);
-        accountRepository.save(senderAccount);
+    public void discount(AccountEntity senderAccountEntity, Integer amount) {
+        senderAccountEntity.setBalance(senderAccountEntity.getBalance() - amount);
+        accountRepository.save(senderAccountEntity);
     }
 
     @Override

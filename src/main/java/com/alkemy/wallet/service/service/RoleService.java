@@ -1,7 +1,7 @@
 package com.alkemy.wallet.service.service;
 
-import com.alkemy.wallet.model.Role;
+import com.alkemy.wallet.model.RoleEntity;
 
 public interface RoleService {
-    Role getRoleByName(String nombreRole);
+    RoleEntity getRoleByName(String nombreRole);
 }

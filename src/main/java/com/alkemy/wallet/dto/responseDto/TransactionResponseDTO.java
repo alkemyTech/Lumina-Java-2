@@ -1,7 +1,5 @@
 package com.alkemy.wallet.dto.responseDto;
 
-import com.alkemy.wallet.model.Account;
-import com.alkemy.wallet.model.Type;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
