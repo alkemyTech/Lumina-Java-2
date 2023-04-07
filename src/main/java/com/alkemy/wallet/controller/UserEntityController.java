@@ -32,4 +32,16 @@ public class UserEntityController {
             @Valid @RequestBody UserEntityRequestDTO userEntityRequestDTO) {
         return userEntityService.createUser(userEntityRequestDTO);
     }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<Object> updateUser(@PathVariable ("userId") Long userId, @RequestBody UserEntityRequestDTO dto){
+        UserEntityResponseDTO updatedUserDTOO = null;
+        try{
+            updatedUserDTOO = userEntityService.updateUser(userId, dto);
+        }catch (UserNotFoundException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTOO);
+    }
 }
