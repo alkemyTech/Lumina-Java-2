@@ -1,5 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.Exception.UserNotFoundException;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
@@ -27,6 +28,8 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Autowired
     private RoleService roleService;
+
+    private UserEntityMapping userEntityMapping;
 
     @Override
     public ResponseEntity<String> softDelete(Long userId) {
@@ -60,6 +63,18 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public UserEntity getUserEntityById(Long userId) {
         return userModelRepository.findById(userId).get();
+    }
+
+    @Override
+    public UserEntityResponseDTO updateUser(Long userId, UserEntityRequestDTO dto) throws UserNotFoundException {
+        UserEntity foundUser = userModelRepository.findById(userId).orElse(null);
+        if(foundUser == null){
+            throw new UserNotFoundException(userId);
+        }
+        UserEntity refreshedUser = userEntityMapping.userRefreshValues(foundUser, dto);
+        UserEntity savedUser = userModelRepository.save(refreshedUser);
+        UserEntityResponseDTO result = userEntityMapping.convertEntityToDTO(savedUser);
+        return result;
     }
 
     private void setAccountToUser(UserEntity user) {
