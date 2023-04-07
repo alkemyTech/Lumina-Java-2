@@ -44,15 +44,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void pay(AccountEntity receiverAccount, Integer amount) {
-        receiverAccount.setBalance(receiverAccount.getBalance() + amount);
-        accountRepository.save(receiverAccount);
+    public void pay(AccountEntity receiverAccountEntity, Integer amount) {
+        receiverAccountEntity.setBalance(receiverAccountEntity.getBalance() + amount);
+        accountRepository.save(receiverAccountEntity);
     }
 
     @Override
-    public void discount(AccountEntity senderAccount, Integer amount) {
-        senderAccount.setBalance(senderAccount.getBalance() - amount);
-        accountRepository.save(senderAccount);
+    public void discount(AccountEntity senderAccountEntity, Integer amount) {
+        senderAccountEntity.setBalance(senderAccountEntity.getBalance() - amount);
+        accountRepository.save(senderAccountEntity);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class AccountServiceImpl implements AccountService {
         AccountEntity pesosAccount = accountList.stream().filter(account -> account.getCurrency().equals(Currency.ARS)).findAny().get();
 
         List<FixedTermDepositEntity> fixedTermDepositList = Stream
-                .concat(dollarAccount.getFixedTermDepositList().stream(), pesosAccount.getFixedTermDepositList().stream())
+                .concat(dollarAccount.getFixedTermDepositEntityList().stream(), pesosAccount.getFixedTermDepositEntityList().stream())
                 .toList();
 
         BalanceResponseDTO balanceResponseDTO = BalanceResponseDTO.builder()

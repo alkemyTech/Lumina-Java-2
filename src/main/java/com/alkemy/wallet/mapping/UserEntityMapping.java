@@ -7,7 +7,7 @@ import com.alkemy.wallet.model.UserEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class UserModelMapping {
+public abstract class UserEntityMapping {
     public static UserEntityResponseDTO convertEntityToDTO(UserEntity userEntity) {
         return UserEntityResponseDTO.builder()
                 .userId(userEntity.getUserId())
@@ -15,7 +15,7 @@ public abstract class UserModelMapping {
                 .lastName(userEntity.getLastName())
                 .email(userEntity.getEmail())
                 .password(userEntity.getPassword())
-                .role(userEntity.getRole().getName().toString())
+                .role(userEntity.getRoleEntity().getName().toString())
                 .creationDate(userEntity.getCreationDate())
                 .updateDate(userEntity.getUpdateDate())
                 .softDelete(userEntity.getSoftDelete())

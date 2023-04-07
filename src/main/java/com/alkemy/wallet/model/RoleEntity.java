@@ -20,7 +20,7 @@ import java.util.List;
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "roleId", nullable = false)
+    @Column(name = "role_id", nullable = false)
     private Long roleId;
     @Column(name = "name", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -30,14 +30,13 @@ public class RoleEntity {
     private String description;
 
     @CreationTimestamp
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
     @UpdateTimestamp
-    @Column(name = "updateDate")
+    @Column(name = "update_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateDate;
-
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "roleEntity")
     private List<UserEntity> userEntityList = new ArrayList();
 }

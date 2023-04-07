@@ -8,20 +8,20 @@ import java.util.List;
 
 public class TransactionMapping {
 
-    public static TransactionResponseDTO convertEntityToDto(TransactionEntity transaction){
+    public static TransactionResponseDTO convertEntityToDto(TransactionEntity transactionEntity){
         return TransactionResponseDTO.builder()
-                .type(transaction.getType().name())
-                .accountId(transaction.getAccount().getAccountId())
-                .amount(transaction.getAmount())
-                .description(transaction.getDescription())
-                .transactionDate(transaction.getTransactionDate())
+                .type(transactionEntity.getType().name())
+                .accountId(transactionEntity.getAccountEntity().getAccountId())
+                .amount(transactionEntity.getAmount())
+                .description(transactionEntity.getDescription())
+                .transactionDate(transactionEntity.getTransactionDate())
                 .build();
     }
 
-    public static List<TransactionResponseDTO> convertEntityListToDtoList(List<TransactionEntity> transactionList){
-        List<TransactionResponseDTO> ret = new ArrayList<>(transactionList.size());
-        for(TransactionEntity transaction : transactionList){
-            ret.add(convertEntityToDto(transaction));
+    public static List<TransactionResponseDTO> convertEntityListToDtoList(List<TransactionEntity> transactionEntityList){
+        List<TransactionResponseDTO> ret = new ArrayList<>(transactionEntityList.size());
+        for(TransactionEntity transactionEntity : transactionEntityList){
+            ret.add(convertEntityToDto(transactionEntity));
         }
         return ret;
     }

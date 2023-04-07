@@ -3,7 +3,7 @@ package com.alkemy.wallet.service.impl;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
-import com.alkemy.wallet.mapping.UserModelMapping;
+import com.alkemy.wallet.mapping.UserEntityMapping;
 import com.alkemy.wallet.model.AccountEntity;
 import com.alkemy.wallet.model.Currency;
 import com.alkemy.wallet.repository.UserModelRepository;
@@ -41,20 +41,19 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public UserEntityResponseDTO getUserById(Long idSender) {
-        return UserModelMapping.convertEntityToDTO(userModelRepository.findById(idSender).get());
+        return UserEntityMapping.convertEntityToDTO(userModelRepository.findById(idSender).get());
     }
 
     public ResponseEntity<UserEntityResponseDTO> createUser(UserEntityRequestDTO userEntityRequestDTO) {
+        UserEntity newUser = (UserEntityMapping.convertDtoToEntity(userEntityRequestDTO));
 
-        UserEntity newUser = (UserModelMapping.convertDtoToEntity(userEntityRequestDTO));
-
-        newUser.setRole(roleService.getRoleByName(userEntityRequestDTO.getRole()));
+        newUser.setRoleEntity(roleService.getRoleByName(userEntityRequestDTO.getRole()));
 
         setAccountToUser(newUser);
 
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserModelMapping.convertEntityToDTO(userModelRepository.save(newUser)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserEntityMapping.convertEntityToDTO(userModelRepository.save(newUser)));
     }
 
     @Override

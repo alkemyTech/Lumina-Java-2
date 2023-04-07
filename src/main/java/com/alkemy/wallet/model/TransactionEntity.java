@@ -20,7 +20,7 @@ public class TransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaccionId", nullable = false)
+    @Column(name = "transaccion_id", nullable = false)
     private Long transactionId;
 
     @Column(name = "amount", nullable = false)
@@ -33,11 +33,11 @@ public class TransactionEntity {
     @Column(name = "description", nullable = true)
     private String description;
     @ManyToOne
-    @JoinColumn(name = "acoountId")
-    private AccountEntity account;
+    @JoinColumn(name = "account_id")
+    private AccountEntity accountEntity;
 
     @CreationTimestamp
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
 

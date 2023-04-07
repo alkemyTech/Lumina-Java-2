@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FixedTermDepositMapping {
-    public static FixedTermDepositResponseDTO convertEntityToDto(FixedTermDepositEntity fixedTermDeposit){
+    public static FixedTermDepositResponseDTO convertEntityToDto(FixedTermDepositEntity fixedTermDepositEntity){
         return FixedTermDepositResponseDTO.builder()
-                .closingDate(fixedTermDeposit.getClosingDate())
-                .accountId(fixedTermDeposit.getAccount().getAccountId())
-                .interest(fixedTermDeposit.getInterest())
-                .amount(fixedTermDeposit.getAmount())
-                .creationDate(fixedTermDeposit.getCreationDate())
+                .closingDate(fixedTermDepositEntity.getClosingDate())
+                .accountId(fixedTermDepositEntity.getAccountEntity().getAccountId())
+                .interest(fixedTermDepositEntity.getInterest())
+                .amount(fixedTermDepositEntity.getAmount())
+                .creationDate(fixedTermDepositEntity.getCreationDate())
                 .build();
     }
 
-    public static List<FixedTermDepositResponseDTO> convertEntityListToDtoList(List<FixedTermDepositEntity> fixedTermDepositList){
-        List<FixedTermDepositResponseDTO> ret = new ArrayList<>(fixedTermDepositList.size());
-        for(FixedTermDepositEntity fixedTermDeposit : fixedTermDepositList){
-            ret.add(convertEntityToDto(fixedTermDeposit));
+    public static List<FixedTermDepositResponseDTO> convertEntityListToDtoList(List<FixedTermDepositEntity> fixedTermDepositEntityList){
+        List<FixedTermDepositResponseDTO> ret = new ArrayList<>(fixedTermDepositEntityList.size());
+        for(FixedTermDepositEntity fixedTermDepositEntity : fixedTermDepositEntityList){
+            ret.add(convertEntityToDto(fixedTermDepositEntity));
         }
         return ret;
     }

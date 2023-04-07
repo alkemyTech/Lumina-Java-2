@@ -16,8 +16,7 @@ public class TransactionController {
     public ResponseEntity<?> sendUsd(@PathVariable Long idSender, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
         try {
             return ResponseEntity.ok(transactionService.sendUsd(transactionRequestDTO, idSender));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
@@ -26,18 +25,27 @@ public class TransactionController {
     public ResponseEntity<?> sendArs(@PathVariable Long idSender, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
         try {
             return ResponseEntity.ok(transactionService.sendArs(transactionRequestDTO, idSender));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
 
     @GetMapping("/transactions/{userId}")
-    public ResponseEntity<?> transactionList(@PathVariable long userId) throws Exception {
-        try{
+    public ResponseEntity<?> transactionList(@PathVariable Long userId) throws Exception {
+        try {
             return ResponseEntity.ok(transactionService.trasactionList(userId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
-        catch (Exception e){
+    }
+
+
+    @PostMapping("/transactions/deposit")
+    public ResponseEntity<?> makeDeposit(@RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
+        try {
+            return ResponseEntity.ok(transactionService.makeDeposit(transactionRequestDTO));
+
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
@@ -45,5 +53,6 @@ public class TransactionController {
     @PatchMapping("/{transactionId}")
     public void editTransactionDescription(@PathVariable Long transactionId, @RequestBody TransactionRequestDTO transactionRequestDTO) throws Exception {
         transactionService.editTransactionDescription(transactionId, transactionRequestDTO);
+
     }
 }

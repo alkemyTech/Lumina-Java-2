@@ -22,20 +22,20 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Users")
-@SQLDelete(sql = "UPDATE Users SET SOFT_DELETE = true WHERE USER_ID = ?")
-@Where(clause = "soft_Delete = false")
+@SQLDelete(sql = "UPDATE Users SET soft_delete = true WHERE USER_ID = ?")
+@Where(clause = "soft_delete = false")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "first_name", nullable = false)
     @NotNull(message = "el campo firstName no puede ser nulo")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras ni estar vacio.")
     private String firstName;
 
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "last_name", nullable = false)
     @NotNull(message = "el campo firstName no puede ser nulo")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras ni estar vacio.")
     private String lastName;
@@ -50,20 +50,20 @@ public class UserEntity {
     private String password;
 
     @ManyToOne()
-    @JoinColumn(name = "roleId")
-    private RoleEntity role;
+    @JoinColumn(name = "role_id")
+    private RoleEntity roleEntity;
 
     @CreationTimestamp
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
 
     @UpdateTimestamp
-    @Column(name = "updateDate")
+    @Column(name = "update_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateDate;
 
-    @Column(name = "SOFT_DELETE")
+    @Column(name = "soft_delete")
     @Builder.Default
     private Boolean softDelete = Boolean.FALSE;
 

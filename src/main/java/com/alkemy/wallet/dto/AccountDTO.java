@@ -23,6 +23,6 @@ public class AccountDTO {
     private LocalDate creationDate;
     private LocalDate updateDate;
     private Boolean softDelete;
-    private List<TransactionEntity> transactionList;
-    private List<FixedTermDepositEntity> fixedTermDepositList;
+    private List<TransactionEntity> transactionEntityList;
+    private List<FixedTermDepositEntity> fixedTermDepositEntityList;
 }
