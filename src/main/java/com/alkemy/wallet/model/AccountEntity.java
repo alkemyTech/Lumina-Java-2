@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "accounts")
 @SQLDelete(sql = "UPDATE accounts SET softDelete=true WHERE accountId = ?")
 @Where(clause = "softDelete = false")
-public class Account {
+public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="accountId", nullable = false)
@@ -37,7 +37,7 @@ public class Account {
     private Double balance;
     @ManyToOne
     @JoinColumn(name = "userId")
-    private UserModel user;
+    private UserEntity user;
     @Column(name="creationDate")
     private LocalDate creationDate;
 
@@ -48,8 +48,8 @@ public class Account {
     private Boolean softDelete = false;
 
     @OneToMany(mappedBy = "account")
-    private List<Transaction> transactionList = new ArrayList ();
+    private List<TransactionEntity> transactionList = new ArrayList ();
 
     @OneToMany(mappedBy = "account")
-    private List<FixedTermDeposit> fixedTermDepositList = new ArrayList<>();
+    private List<FixedTermDepositEntity> fixedTermDepositList = new ArrayList<>();
 }

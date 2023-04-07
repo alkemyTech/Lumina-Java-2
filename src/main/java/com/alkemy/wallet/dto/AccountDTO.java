@@ -1,9 +1,9 @@
 package com.alkemy.wallet.dto;
 
 import com.alkemy.wallet.model.Currency;
-import com.alkemy.wallet.model.FixedTermDeposit;
-import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.model.UserModel;
+import com.alkemy.wallet.model.FixedTermDepositEntity;
+import com.alkemy.wallet.model.TransactionEntity;
+import com.alkemy.wallet.model.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +19,10 @@ public class AccountDTO {
     private Currency currency;
     private Double transactionLimit;
     private Double balance;
-    private UserModel user;
+    private UserEntity user;
     private LocalDate creationDate;
     private LocalDate updateDate;
     private Boolean softDelete;
-    private List<Transaction> transactionList;
-    private List<FixedTermDeposit> fixedTermDepositList;
+    private List<TransactionEntity> transactionList;
+    private List<FixedTermDepositEntity> fixedTermDepositList;
 }

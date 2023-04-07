@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "Roles")
-public class Role {
+public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roleId", nullable = false)
@@ -39,5 +39,5 @@ public class Role {
     private LocalDate updateDate;
 
     @OneToMany(mappedBy = "role")
-    private List<UserModel> userModelList = new ArrayList();
+    private List<UserEntity> userEntityList = new ArrayList();
 }

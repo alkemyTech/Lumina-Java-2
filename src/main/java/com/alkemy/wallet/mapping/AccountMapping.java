@@ -1,14 +1,14 @@
 package com.alkemy.wallet.mapping;
 
 import com.alkemy.wallet.dto.AccountDTO;
-import com.alkemy.wallet.model.Account;
+import com.alkemy.wallet.model.AccountEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AccountMapping {
 
-    public static AccountDTO convertEntityToDto(Account account){
+    public static AccountDTO convertEntityToDto(AccountEntity account){
         return AccountDTO.builder()
                 .accountId(account.getAccountId())
                 .currency(account.getCurrency())
@@ -23,8 +23,8 @@ public abstract class AccountMapping {
                 .build();
     }
 
-    public static Account convertDtoToEntity(AccountDTO accountDTO){
-        return Account.builder()
+    public static AccountEntity convertDtoToEntity(AccountDTO accountDTO){
+        return AccountEntity.builder()
                 .currency(accountDTO.getCurrency())
                 .transactionLimit(accountDTO.getTransactionLimit())
                 .balance(accountDTO.getBalance())
@@ -32,16 +32,16 @@ public abstract class AccountMapping {
                 .build();
     }
 
-    public static List<AccountDTO> convertEntityListToDtoList(List<Account> accountList){
+    public static List<AccountDTO> convertEntityListToDtoList(List<AccountEntity> accountList){
         List<AccountDTO> ret = new ArrayList<>(accountList.size());
-        for(Account account : accountList){
+        for(AccountEntity account : accountList){
             ret.add(convertEntityToDto(account));
         }
         return ret;
     }
 
-    public static List<Account> convertDTOListToEntityList(List<AccountDTO> accountDtoList){
-        List<Account> ret = new ArrayList<>(accountDtoList.size());
+    public static List<AccountEntity> convertDTOListToEntityList(List<AccountDTO> accountDtoList){
+        List<AccountEntity> ret = new ArrayList<>(accountDtoList.size());
         for(AccountDTO accountDto : accountDtoList){
             ret.add(convertDtoToEntity(accountDto));
         }

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Table(name = "fixed_term_deposits")
 @SQLDelete(sql = "UPDATE fixed_term_deposits SET softDelete=true WHERE fixed_term_depositsId = ?")
 @Where(clause = "softDelete = false")
-public class FixedTermDeposit {
+public class FixedTermDepositEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="fixed_term_depositsId", nullable = false)
@@ -27,7 +27,7 @@ public class FixedTermDeposit {
     private Double amount;
     @ManyToOne
     @JoinColumn(name = "accountId")
-    private Account account;
+    private AccountEntity account;
     @Column(name="interest", nullable = false)
     private Double interest;
     @Column(name="creationDate")

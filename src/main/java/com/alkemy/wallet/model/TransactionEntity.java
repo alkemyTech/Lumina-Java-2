@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Builder
 @Table(name = "Transactions")
-public class Transaction {
+public class TransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Transaction {
     private String description;
     @ManyToOne
     @JoinColumn(name = "acoountId")
-    private Account account;
+    private AccountEntity account;
 
     @CreationTimestamp
     @Column(name = "creationDate")

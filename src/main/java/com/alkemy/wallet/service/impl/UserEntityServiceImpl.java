@@ -1,15 +1,14 @@
 package com.alkemy.wallet.service.impl;
 
-import com.alkemy.wallet.model.UserModel;
-import com.alkemy.wallet.dto.requestDto.UserModelRequestDTO;
-import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
+import com.alkemy.wallet.model.UserEntity;
+import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
+import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
 import com.alkemy.wallet.mapping.UserModelMapping;
-import com.alkemy.wallet.model.Account;
+import com.alkemy.wallet.model.AccountEntity;
 import com.alkemy.wallet.model.Currency;
-import com.alkemy.wallet.model.UserModel;
 import com.alkemy.wallet.repository.UserModelRepository;
 import com.alkemy.wallet.service.service.RoleService;
-import com.alkemy.wallet.service.service.UserModelService;
+import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserModelIimpl implements UserModelService {
+public class UserEntityServiceImpl implements UserEntityService {
     @Autowired
     private UserModelRepository userModelRepository;
 
@@ -36,20 +35,20 @@ public class UserModelIimpl implements UserModelService {
     }
 
     @Override
-    public ResponseEntity<List<UserModel>> getUserList() {
+    public ResponseEntity<List<UserEntity>> getUserList() {
         return ResponseEntity.status(HttpStatus.OK).body(userModelRepository.findAll());
     }
 
     @Override
-    public UserModelResponseDTO getUserById(Long idSender) {
+    public UserEntityResponseDTO getUserById(Long idSender) {
         return UserModelMapping.convertEntityToDTO(userModelRepository.findById(idSender).get());
     }
 
-    public ResponseEntity<UserModelResponseDTO> createUser(UserModelRequestDTO userModelRequestDTO) {
+    public ResponseEntity<UserEntityResponseDTO> createUser(UserEntityRequestDTO userEntityRequestDTO) {
 
-        UserModel newUser = (UserModelMapping.convertDtoToEntity(userModelRequestDTO));
+        UserEntity newUser = (UserModelMapping.convertDtoToEntity(userEntityRequestDTO));
 
-        newUser.setRole(roleService.getRoleByName(userModelRequestDTO.getRole()));
+        newUser.setRole(roleService.getRoleByName(userEntityRequestDTO.getRole()));
 
         setAccountToUser(newUser);
 
@@ -59,13 +58,13 @@ public class UserModelIimpl implements UserModelService {
     }
 
     @Override
-    public UserModel getUserEntityById(Long userId) {
+    public UserEntity getUserEntityById(Long userId) {
         return userModelRepository.findById(userId).get();
     }
 
-    private void setAccountToUser(UserModel user) {
-        Account USDAcount = new Account();
-        Account ARSAcount = new Account();
+    private void setAccountToUser(UserEntity user) {
+        AccountEntity USDAcount = new AccountEntity();
+        AccountEntity ARSAcount = new AccountEntity();
 
         USDAcount.setCurrency(Currency.USD);
         ARSAcount.setCurrency(Currency.ARS);

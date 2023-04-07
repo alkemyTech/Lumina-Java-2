@@ -3,13 +3,13 @@ package com.alkemy.wallet.service.impl;
 import com.alkemy.wallet.dto.requestDto.FixedTermDepositRequestDTO;
 import com.alkemy.wallet.dto.responseDto.FixedTermDepositResponseDTO;
 import com.alkemy.wallet.mapping.FixedTermDepositMapping;
-import com.alkemy.wallet.model.Account;
-import com.alkemy.wallet.model.FixedTermDeposit;
-import com.alkemy.wallet.model.UserModel;
+import com.alkemy.wallet.model.AccountEntity;
+import com.alkemy.wallet.model.FixedTermDepositEntity;
+import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.FixedTermDepositRepository;
 import com.alkemy.wallet.service.service.AccountService;
 import com.alkemy.wallet.service.service.FixedTermDepositService;
-import com.alkemy.wallet.service.service.UserModelService;
+import com.alkemy.wallet.service.service.UserEntityService;
 import com.alkemy.wallet.utils.SimpleInterestCalculator;
 import com.alkemy.wallet.utils.SimpleInterestPerDayCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class FixedTermDepositServiceImpl implements FixedTermDepositService {
     FixedTermDepositRepository fixedTermDepositRepository;
 
     @Autowired
-    UserModelService userModelService;
+    UserEntityService userEntityService;
     @Autowired
     AccountService accountService;
 
@@ -39,8 +39,8 @@ public class FixedTermDepositServiceImpl implements FixedTermDepositService {
 
     @Override
     public ResponseEntity<?> createFixedDeposit(Long accountId, Long userId, FixedTermDepositRequestDTO fixedTermDepositRequestDTO) throws Exception {
-        UserModel user = userModelService.getUserEntityById(userId);
-        Account account = accountService.getAccountEntityById(accountId);
+        UserEntity user = userEntityService.getUserEntityById(userId);
+        AccountEntity account = accountService.getAccountEntityById(accountId);
         if(user == null || account == null){
             throw new Exception("Usuario o cuenta no existente.");
         }
@@ -53,9 +53,9 @@ public class FixedTermDepositServiceImpl implements FixedTermDepositService {
         return null;
     }
 
-    private void generateFixedDeposit(Account account, UserModel user, FixedTermDepositRequestDTO fixedTermDepositRequestDTO) {
+    private void generateFixedDeposit(AccountEntity account, UserEntity user, FixedTermDepositRequestDTO fixedTermDepositRequestDTO) {
         SimpleInterestCalculator interestCalculator = new SimpleInterestPerDayCalculator();
-        FixedTermDeposit fixedTermDeposit = FixedTermDeposit.builder()
+        FixedTermDepositEntity fixedTermDeposit = FixedTermDepositEntity.builder()
                 .creationDate(LocalDate.now())
                 .interest(interestCalculator.calculate(fixedTermDepositRequestDTO.getAmount(),
                         this.interestRate,
@@ -79,7 +79,7 @@ public class FixedTermDepositServiceImpl implements FixedTermDepositService {
             throw new Exception("La fecha ingresada para el plazo fijo es anterior a la fecha actual");
         }
     }
-    private void checkEnoughBalance(Account account, Double amount) throws Exception{
+    private void checkEnoughBalance(AccountEntity account, Double amount) throws Exception{
         if(account.getBalance() < amount){
             throw new Exception("No dispone de dinero suficiente en cuenta para realizar el plazo fijo");
         }

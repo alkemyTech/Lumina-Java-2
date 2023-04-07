@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -25,7 +24,7 @@ import java.util.List;
 @Table(name = "Users")
 @SQLDelete(sql = "UPDATE Users SET SOFT_DELETE = true WHERE USER_ID = ?")
 @Where(clause = "soft_Delete = false")
-public class UserModel {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", nullable = false)
@@ -52,7 +51,7 @@ public class UserModel {
 
     @ManyToOne()
     @JoinColumn(name = "roleId")
-    private Role role;
+    private RoleEntity role;
 
     @CreationTimestamp
     @Column(name = "creationDate")
@@ -70,6 +69,6 @@ public class UserModel {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<Account> accountsList = new ArrayList();
+    private List<AccountEntity> accountsList = new ArrayList();
 
 }

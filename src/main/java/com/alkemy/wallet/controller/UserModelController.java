@@ -1,9 +1,9 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.dto.requestDto.UserModelRequestDTO;
-import com.alkemy.wallet.dto.responseDto.UserModelResponseDTO;
-import com.alkemy.wallet.model.UserModel;
-import com.alkemy.wallet.service.service.UserModelService;
+import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
+import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
+import com.alkemy.wallet.model.UserEntity;
+import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +15,21 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserModelController {
     @Autowired
-    private UserModelService userModelService;
+    private UserEntityService userEntityService;
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> softDelete(@PathVariable("userId") Long userId) {
-        return userModelService.softDelete(userId);
+        return userEntityService.softDelete(userId);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserModel>> getUserList() {
-        return userModelService.getUserList();
+    public ResponseEntity<List<UserEntity>> getUserList() {
+        return userEntityService.getUserList();
     }
 
     @PostMapping("auth/register")
-    public ResponseEntity<UserModelResponseDTO> createUser(
-            @Valid @RequestBody UserModelRequestDTO userModelRequestDTO) {
-        return userModelService.createUser(userModelRequestDTO);
+    public ResponseEntity<UserEntityResponseDTO> createUser(
+            @Valid @RequestBody UserEntityRequestDTO userEntityRequestDTO) {
+        return userEntityService.createUser(userEntityRequestDTO);
     }
 }
