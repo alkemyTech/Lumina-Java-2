@@ -62,7 +62,7 @@ public class FixedTermDepositServiceImpl implements FixedTermDepositService {
                         (int) ChronoUnit.DAYS.between(LocalDate.now(), fixedTermDepositRequestDTO.getClosingDate())))
                 .closingDate(fixedTermDepositRequestDTO.getClosingDate())
                 .amount(fixedTermDepositRequestDTO.getAmount())
-                .account(account)
+                .accountEntity(account)
                 .build();
         fixedTermDepositRepository.save(fixedTermDeposit);
     }
