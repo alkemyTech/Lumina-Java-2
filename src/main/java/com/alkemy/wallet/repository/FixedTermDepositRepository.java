@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface FixedTermDepositRepository extends JpaRepository<FixedTermDepositEntity, Long> {
-
     @Query(value = "SELECT * FROM fixed_term_deposits WHERE account_id = :accountId", nativeQuery = true)
     List<FixedTermDepositEntity> getFixedTermDepositDTObyAccountId(@Param(value = "accountId") Long accountId);
 }

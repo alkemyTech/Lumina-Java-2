@@ -46,7 +46,6 @@ public class AccountEntity {
 
     @Column(name="soft_delete")
     private Boolean softDelete = false;
-
     @OneToMany(mappedBy = "accountEntity")
     private List<TransactionEntity> transactionEntityList = new ArrayList ();
 

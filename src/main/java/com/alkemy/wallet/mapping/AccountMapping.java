@@ -31,7 +31,6 @@ public abstract class AccountMapping {
                 .user(accountDTO.getUser())
                 .build();
     }
-
     public static List<AccountDTO> convertEntityListToDtoList(List<AccountEntity> accountEntityList){
         List<AccountDTO> ret = new ArrayList<>(accountEntityList.size());
         for(AccountEntity accountEntity : accountEntityList){
