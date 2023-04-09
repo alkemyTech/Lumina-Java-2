@@ -53,10 +53,8 @@ public class TransactionServiceImpl implements TransactionService {
         }
         List<TransactionResponseDTO> transactionResponseDTOList = new ArrayList<>();
         List<AccountEntity> accountEntityUser = user.getAccountsList();
-        for (AccountEntity accountEntity : accountEntityUser
-             ) {
+        for (AccountEntity accountEntity : accountEntityUser) {
          transactionResponseDTOList.addAll(TransactionMapping.convertEntityListToDtoList( accountEntity.getTransactionEntityList()));
-
         }
         return transactionResponseDTOList;
     }
@@ -81,11 +79,9 @@ public class TransactionServiceImpl implements TransactionService {
         UserEntity userSender = userEntityService.getUserEntityById(senderUserId);
         UserEntity userReceiver = userEntityService.getUserEntityById(receiverUserId);
 
-
         existsUser(userSender);
         existsUser(userReceiver);
         equalUsers(senderUserId, receiverUserId);
-
 
         AccountEntity senderAccountEntity = accountService.accountsEntityOfUser(senderUserId)
                 .stream()

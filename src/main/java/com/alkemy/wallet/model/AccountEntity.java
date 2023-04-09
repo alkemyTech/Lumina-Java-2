@@ -52,7 +52,6 @@ public class AccountEntity {
     @Column(name="soft_delete")
     @Builder.Default
     private Boolean softDelete = false;
-
     @OneToMany(mappedBy = "accountEntity")
     private List<TransactionEntity> transactionEntityList = new ArrayList ();
 

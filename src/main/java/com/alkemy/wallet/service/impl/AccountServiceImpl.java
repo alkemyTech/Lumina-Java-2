@@ -5,17 +5,19 @@ import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.AccountForPostRequestDTO;
 import com.alkemy.wallet.dto.responseDto.AccountForPostResponseDTO;
 import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
-import com.alkemy.wallet.dto.responseDto.FixedTermDepositResponseDTO;
 import com.alkemy.wallet.mapping.AccountForPostMapping;
 import com.alkemy.wallet.mapping.AccountMapping;
+import com.alkemy.wallet.mapping.FixedTermDepositMapping;
 import com.alkemy.wallet.model.AccountEntity;
 import com.alkemy.wallet.model.Currency;
+import com.alkemy.wallet.model.FixedTermDepositEntity;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.service.service.AccountService;
 import com.alkemy.wallet.service.service.FixedTermDepositService;
 import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,11 +30,6 @@ public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
 
     @Autowired
-    private FixedTermDepositService fixedTermDepositService;
-
-    @Autowired
-    //@Lazy para evitar que sea recursivo
-
     private UserEntityService userEntityService;
 
     @Override
@@ -71,20 +68,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public BalanceResponseDTO getBalance(Long userId) {
-        List<AccountDTO> accountDTOList = accountsOfUser(userId);
+        List<AccountEntity> accountList = accountsEntityOfUser(userId);
 
-        AccountDTO dollarAccountDTO = accountDTOList.stream().filter(account -> account.getCurrency().equals(Currency.USD)).findAny().get();
-        AccountDTO pesosAccountDTO = accountDTOList.stream().filter(account -> account.getCurrency().equals(Currency.ARS)).findAny().get();
+        AccountEntity dollarAccount = accountList.stream().filter(account -> account.getCurrency().equals(Currency.USD)).findAny().get();
+        AccountEntity pesosAccount = accountList.stream().filter(account -> account.getCurrency().equals(Currency.ARS)).findAny().get();
 
-        List<FixedTermDepositResponseDTO> fixedTermDepositResponseDTOList = Stream
-                .concat(fixedTermDepositService.getFixedTermDepositsDTObyAccountId(dollarAccountDTO.getAccountId()).stream()
-                        , fixedTermDepositService.getFixedTermDepositsDTObyAccountId(pesosAccountDTO.getAccountId()).stream())
+        List<FixedTermDepositEntity> fixedTermDepositList = Stream
+                .concat(dollarAccount.getFixedTermDepositEntityList().stream(), pesosAccount.getFixedTermDepositEntityList().stream())
                 .toList();
 
         BalanceResponseDTO balanceResponseDTO = BalanceResponseDTO.builder()
-                .dollarBalance(dollarAccountDTO.getBalance())
-                .pesosBalance(pesosAccountDTO.getBalance())
-                .fixedTermDepositList(fixedTermDepositResponseDTOList)
+                .dollarBalance(dollarAccount.getBalance())
+                .pesosBalance(pesosAccount.getBalance())
+                .fixedTermDepositList(FixedTermDepositMapping.convertEntityListToDtoList(fixedTermDepositList))
                 .build();
 
         return balanceResponseDTO;

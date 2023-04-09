@@ -37,7 +37,6 @@ public class RoleEntity {
     @Column(name = "update_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateDate;
-
     @OneToMany(mappedBy = "roleEntity")
     private List<UserEntity> userEntityList = new ArrayList();
 }

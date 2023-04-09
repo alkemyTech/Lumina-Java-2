@@ -33,7 +33,7 @@ public class TransactionEntity {
     @Column(name = "description", nullable = true)
     private String description;
     @ManyToOne
-    @JoinColumn(name = "acoount_id")
+    @JoinColumn(name = "account_id")
     private AccountEntity accountEntity;
 
     @CreationTimestamp

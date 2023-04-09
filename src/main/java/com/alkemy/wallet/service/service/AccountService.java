@@ -13,11 +13,11 @@ public interface AccountService {
 
     AccountDTO getAccountById(Long idAccountAdressee);
 
-    void pay(AccountEntity receiverAccountIdEntity, Integer amount);
+    void pay(AccountEntity receiverAccountId, Integer amount);
 
     BalanceResponseDTO getBalance(Long userId);
 
-    void discount(AccountEntity senderAccountIdEntity, Integer amount);
+    void discount(AccountEntity senderAccountId, Integer amount);
 
     AccountEntity getAccountEntityById(Long accountId);
 

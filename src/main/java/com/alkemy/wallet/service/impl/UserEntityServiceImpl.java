@@ -45,7 +45,6 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     public ResponseEntity<UserEntityResponseDTO> createUser(UserEntityRequestDTO userEntityRequestDTO) {
-
         UserEntity newUser = (UserEntityMapping.convertDtoToEntity(userEntityRequestDTO));
 
         newUser.setRoleEntity(roleService.getRoleByName(userEntityRequestDTO.getRole()));
