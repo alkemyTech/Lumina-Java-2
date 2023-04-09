@@ -1,10 +1,13 @@
 package com.alkemy.wallet.model;
 
+import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -39,12 +42,15 @@ public class AccountEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
     @Column(name="creation_date")
+    @CreationTimestamp
     private LocalDate creationDate;
 
     @Column(name="update_date")
+    @UpdateTimestamp
     private LocalDate updateDate;
 
     @Column(name="soft_delete")
+    @Builder.Default
     private Boolean softDelete = false;
     @OneToMany(mappedBy = "accountEntity")
     private List<TransactionEntity> transactionEntityList = new ArrayList ();

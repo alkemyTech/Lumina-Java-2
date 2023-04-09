@@ -1,15 +1,23 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.Exception.InvalidCurrencyNameException;
 import com.alkemy.wallet.dto.AccountDTO;
+import com.alkemy.wallet.dto.requestDto.AccountForPostRequestDTO;
+import com.alkemy.wallet.dto.responseDto.AccountForPostResponseDTO;
 import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
+import com.alkemy.wallet.mapping.AccountForPostMapping;
 import com.alkemy.wallet.mapping.AccountMapping;
 import com.alkemy.wallet.mapping.FixedTermDepositMapping;
 import com.alkemy.wallet.model.AccountEntity;
 import com.alkemy.wallet.model.Currency;
 import com.alkemy.wallet.model.FixedTermDepositEntity;
+import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.service.service.AccountService;
+import com.alkemy.wallet.service.service.FixedTermDepositService;
+import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +29,11 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private UserEntityService userEntityService;
+
     @Override
-    public List<AccountDTO> accountsOfUser(Long userId){
+    public List<AccountDTO> accountsOfUser(Long userId) {
         List<AccountEntity> accountsList = accountRepository.accountsOfUser(userId);
         List<AccountDTO> ret = AccountMapping.convertEntityListToDtoList(accountsList);
         return ret;
@@ -74,4 +85,48 @@ public class AccountServiceImpl implements AccountService {
 
         return balanceResponseDTO;
     }
+
+    @Override
+    public AccountForPostResponseDTO saveAccount(AccountForPostRequestDTO accountForPostRequestDTO) {
+
+        AccountEntity newAccount = AccountForPostMapping.convertDtoToEntity(accountForPostRequestDTO);
+
+        UserEntity newUser = userEntityService.getUserEntityById(accountForPostRequestDTO.getUser().getUserId());
+
+        Boolean found = Boolean.FALSE;
+
+        for (AccountEntity account : newUser.getAccountsList()) {
+            if (account.getCurrency().name().equals(accountForPostRequestDTO.getCurrency())) {
+
+                newAccount = account;
+
+                found = Boolean.TRUE;
+            }
+        }
+
+
+        if (!found) {
+            if (accountForPostRequestDTO.getCurrency().equals(Currency.ARS.name())) {
+                newAccount.setCurrency(Currency.ARS);
+                newAccount.setTransactionLimit(300000d);
+                newUser.getAccountsList().add(newAccount);
+
+            } else if (accountForPostRequestDTO.getCurrency().equals(Currency.USD.name())) {
+
+                newAccount.setCurrency(Currency.USD);
+                newAccount.setTransactionLimit(1000d);
+                newUser.getAccountsList().add(newAccount);
+            } else {
+                throw new InvalidCurrencyNameException("La moneda enviada en la peticion no existe");
+            }
+
+        }
+
+
+        newAccount.setBalance(0d);
+        newAccount.setUser(newUser);
+
+        return AccountForPostMapping.convertEntityToDto(accountRepository.save(newAccount));
+    }
+
 }

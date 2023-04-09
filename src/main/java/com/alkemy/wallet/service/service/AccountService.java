@@ -1,6 +1,8 @@
 package com.alkemy.wallet.service.service;
 
 import com.alkemy.wallet.dto.AccountDTO;
+import com.alkemy.wallet.dto.requestDto.AccountForPostRequestDTO;
+import com.alkemy.wallet.dto.responseDto.AccountForPostResponseDTO;
 import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
 import com.alkemy.wallet.model.AccountEntity;
 
@@ -20,4 +22,7 @@ public interface AccountService {
     AccountEntity getAccountEntityById(Long accountId);
 
     List<AccountEntity> accountsEntityOfUser(Long senderUserId);
+
+    AccountForPostResponseDTO saveAccount(AccountForPostRequestDTO accountForPostRequestDTO);
+
 }

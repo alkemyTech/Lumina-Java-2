@@ -16,6 +16,8 @@ import java.util.List;
 @Setter
 @Builder
 public class UserEntityRequestDTO {
+
+    private Long userId;
     @NotNull(message = "el campo firstName no puede ser nulo")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras ni estar vacio.")
     private String firstName;
