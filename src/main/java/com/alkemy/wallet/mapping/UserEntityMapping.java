@@ -15,7 +15,7 @@ public abstract class UserEntityMapping {
                 .lastName(userEntity.getLastName())
                 .email(userEntity.getEmail())
                 .password(userEntity.getPassword())
-                .role(userEntity.getRoleEntity().getName().toString())
+                .role(userEntity.getRoleEntity().getName().name())
                 .creationDate(userEntity.getCreationDate())
                 .updateDate(userEntity.getUpdateDate())
                 .softDelete(userEntity.getSoftDelete())
