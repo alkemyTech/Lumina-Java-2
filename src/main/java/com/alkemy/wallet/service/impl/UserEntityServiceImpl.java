@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,9 +38,20 @@ public class UserEntityServiceImpl implements UserEntityService {
         return ResponseEntity.status(HttpStatus.OK).body("Usuario eliminado exitosamente");
     }
 
-    @Override
+    /*@Override
     public ResponseEntity<List<UserEntity>> getUserList() {
         return ResponseEntity.status(HttpStatus.OK).body(userModelRepository.findAll());
+    }*/
+
+    @Override
+    public ResponseEntity<List<UserEntityResponseDTO>> getUserList(){
+        List<UserEntity> usersEntityList = userModelRepository.findAll();
+        List<UserEntityResponseDTO> userEntitiesDTOs = new ArrayList<>();
+        for(UserEntity ue : usersEntityList){
+            UserEntityResponseDTO uer = userEntityMapping.convertEntityToDTO(ue);
+            userEntitiesDTOs.add(uer);
+        }
+      return ResponseEntity.status(HttpStatus.OK).body(userEntitiesDTOs);
     }
 
     @Override
