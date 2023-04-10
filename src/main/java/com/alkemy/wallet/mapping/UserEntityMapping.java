@@ -44,4 +44,14 @@ public abstract class UserEntityMapping {
 
     }
 
+    public static UserEntity userRefreshValues(UserEntity user, UserEntityRequestDTO dto){
+        if(dto.getFirstName() != null && !dto.getFirstName().isEmpty()){
+            user.setFirstName(dto.getFirstName());
+        }
+        if(dto.getLastName() != null && !dto.getLastName().isEmpty()){
+            user.setLastName(dto.getLastName());
+        }
+        return user;
+    }
+
 }

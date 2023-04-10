@@ -1,5 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.Exception.UserNotFoundException;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,15 +30,28 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Autowired
     private RoleService roleService;
 
+    private UserEntityMapping userEntityMapping;
+
     @Override
     public ResponseEntity<String> softDelete(Long userId) {
         userModelRepository.deleteById(userId);
         return ResponseEntity.status(HttpStatus.OK).body("Usuario eliminado exitosamente");
     }
 
-    @Override
+    /*@Override
     public ResponseEntity<List<UserEntity>> getUserList() {
         return ResponseEntity.status(HttpStatus.OK).body(userModelRepository.findAll());
+    }*/
+
+    @Override
+    public ResponseEntity<List<UserEntityResponseDTO>> getUserList(){
+        List<UserEntity> usersEntityList = userModelRepository.findAll();
+        List<UserEntityResponseDTO> userEntitiesDTOs = new ArrayList<>();
+        for(UserEntity ue : usersEntityList){
+            UserEntityResponseDTO uer = userEntityMapping.convertEntityToDTO(ue);
+            userEntitiesDTOs.add(uer);
+        }
+      return ResponseEntity.status(HttpStatus.OK).body(userEntitiesDTOs);
     }
 
     @Override
@@ -59,6 +74,18 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public UserEntity getUserEntityById(Long userId) {
         return userModelRepository.findById(userId).get();
+    }
+
+    @Override
+    public UserEntityResponseDTO updateUser(Long userId, UserEntityRequestDTO dto) throws UserNotFoundException {
+        UserEntity foundUser = userModelRepository.findById(userId).orElse(null);
+        if(foundUser == null){
+            throw new UserNotFoundException(userId);
+        }
+        UserEntity refreshedUser = userEntityMapping.userRefreshValues(foundUser, dto);
+        UserEntity savedUser = userModelRepository.save(refreshedUser);
+        UserEntityResponseDTO result = userEntityMapping.convertEntityToDTO(savedUser);
+        return result;
     }
 
     private void setAccountToUser(UserEntity user) {
