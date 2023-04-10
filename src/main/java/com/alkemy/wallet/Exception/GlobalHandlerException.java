@@ -26,7 +26,7 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(InvalidCurrencyNameException.class)
+    @ExceptionHandler(InvalidResourceException.class)
     protected ResponseEntity<Object> handleConflict(
             RuntimeException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(),
