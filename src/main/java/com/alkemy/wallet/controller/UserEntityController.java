@@ -24,11 +24,6 @@ public class UserEntityController {
         return userEntityService.softDelete(userId);
     }
 
-    /*@GetMapping
-    public ResponseEntity<List<UserEntity>> getUserList() {
-        return userEntityService.getUserList();
-    }*/
-
     @GetMapping
     public ResponseEntity<List<UserEntityResponseDTO>> getUserList() {
         return userEntityService.getUserList();
