@@ -2,6 +2,7 @@ package com.alkemy.wallet.service.service;
 
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface TransactionService {
     List<TransactionResponseDTO> trasactionList(long userId) throws Exception;
 
     TransactionResponseDTO makeDeposit(TransactionRequestDTO transactionRequestDTO) throws Exception;
+
+    ResponseEntity<TransactionResponseDTO> trasactionForId(long transactionId);
 }

@@ -9,6 +9,8 @@ import com.alkemy.wallet.service.service.AccountService;
 import com.alkemy.wallet.service.service.TransactionService;
 import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,36 +27,38 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private UserEntityService userEntityService;
+
     @Override
     public List<TransactionResponseDTO> sendUsd(TransactionRequestDTO transactionRequestDTO, Long senderUserId) throws Exception {
         String currency = Currency.USD.name();
-        return send(transactionRequestDTO,senderUserId, currency);
+        return send(transactionRequestDTO, senderUserId, currency);
     }
 
     @Override
-    public void editTransactionDescription(Long transactionId, TransactionRequestDTO transactionRequestDTO) throws Exception{
+    public void editTransactionDescription(Long transactionId, TransactionRequestDTO transactionRequestDTO) throws Exception {
         TransactionEntity transactionEntity = transactionRepository.findById(transactionId).get();
-        if(transactionEntity == null){
+        if (transactionEntity == null) {
             throw new Exception("La transaction especificada no existe.");
         }
         transactionEntity.setDescription(transactionRequestDTO.getDescription());
         transactionRepository.save(transactionEntity);
     }
+
     public List<TransactionResponseDTO> sendArs(TransactionRequestDTO transactionRequestDTO, Long senderUserId) throws Exception {
         String currency = Currency.ARS.name();
-        return send(transactionRequestDTO,senderUserId,currency);
+        return send(transactionRequestDTO, senderUserId, currency);
     }
 
     @Override
     public List<TransactionResponseDTO> trasactionList(long userId) throws Exception {
         UserEntity user = userEntityService.getUserEntityById(userId);
-        if (user == null){
+        if (user == null) {
             throw new Exception("El usuario no fue encontrado");
         }
         List<TransactionResponseDTO> transactionResponseDTOList = new ArrayList<>();
         List<AccountEntity> accountEntityUser = user.getAccountsList();
         for (AccountEntity accountEntity : accountEntityUser) {
-         transactionResponseDTOList.addAll(TransactionMapping.convertEntityListToDtoList( accountEntity.getTransactionEntityList()));
+            transactionResponseDTOList.addAll(TransactionMapping.convertEntityListToDtoList(accountEntity.getTransactionEntityList()));
         }
         return transactionResponseDTOList;
     }
@@ -63,18 +67,18 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionResponseDTO makeDeposit(TransactionRequestDTO transactionRequestDTO) throws Exception {
         AccountEntity accountEntity = accountService.getAccountEntityById(transactionRequestDTO.getReceiverAccountId());
 
-        if (transactionRequestDTO.getAmount() <= 0){
+        if (transactionRequestDTO.getAmount() <= 0) {
             throw new Exception("El monto depositado debe ser mayor a 0");
         }
 
-        accountService.pay(accountEntity,transactionRequestDTO.getAmount());
+        accountService.pay(accountEntity, transactionRequestDTO.getAmount());
 
 
-        return TransactionMapping.convertEntityToDto(generateDeposit(accountEntity,transactionRequestDTO));
+        return TransactionMapping.convertEntityToDto(generateDeposit(accountEntity, transactionRequestDTO));
     }
 
 
-    public List<TransactionResponseDTO> send(TransactionRequestDTO transactionRequestDTO, Long senderUserId,String currency) throws Exception {
+    public List<TransactionResponseDTO> send(TransactionRequestDTO transactionRequestDTO, Long senderUserId, String currency) throws Exception {
         Long receiverUserId = transactionRequestDTO.getReceiverAccountId();
         UserEntity userSender = userEntityService.getUserEntityById(senderUserId);
         UserEntity userReceiver = userEntityService.getUserEntityById(receiverUserId);
@@ -95,13 +99,13 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     private void equalUsers(Long senderUserId, Long receiverUserId) throws Exception {
-        if(senderUserId == receiverUserId){
+        if (senderUserId == receiverUserId) {
             throw new Exception("No se puede hacer transaccion a un mismo usuario");
         }
     }
 
     private static void existsUser(UserEntity userSender) throws Exception {
-        if  (userSender == null){
+        if (userSender == null) {
             throw new Exception("El usuario no existe");
         }
     }
@@ -157,7 +161,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.save(newTransactionEntity);
     }
 
-    private TransactionEntity generateDeposit(AccountEntity accountEntity, TransactionRequestDTO transactionRequestDTO){
+    private TransactionEntity generateDeposit(AccountEntity accountEntity, TransactionRequestDTO transactionRequestDTO) {
         StringBuilder description = new StringBuilder();
         description.append("Se Deposito")
                 .append(transactionRequestDTO.getAmount())
@@ -177,11 +181,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private void checkTransaction(AccountEntity senderAccountEntity, TransactionRequestDTO transactionRequestDTO) throws Exception {
-        if(senderAccountEntity.getBalance() < transactionRequestDTO.getAmount()){
+        if (senderAccountEntity.getBalance() < transactionRequestDTO.getAmount()) {
             throw new Exception("No tiene suficiente dinero para realizar la transaccion.");
         }
-        if(senderAccountEntity.getTransactionLimit() < transactionRequestDTO.getAmount()){
+        if (senderAccountEntity.getTransactionLimit() < transactionRequestDTO.getAmount()) {
             throw new Exception("El valor indicado para la transaccion excede su limite de cuenta.");
         }
+    }
+
+    @Override
+    public ResponseEntity<TransactionResponseDTO> trasactionForId(long transactionId) {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(TransactionMapping
+                        .convertEntityToDto(transactionRepository.findById(transactionId).get()));
     }
 }
