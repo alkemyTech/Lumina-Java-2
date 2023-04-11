@@ -1,6 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
-import com.alkemy.wallet.Exception.InvalidCurrencyNameException;
+import com.alkemy.wallet.Exception.InvalidResourceException;
 import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.AccountForPostRequestDTO;
 import com.alkemy.wallet.dto.responseDto.AccountForPostResponseDTO;
@@ -14,10 +14,8 @@ import com.alkemy.wallet.model.FixedTermDepositEntity;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.service.service.AccountService;
-import com.alkemy.wallet.service.service.FixedTermDepositService;
 import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -117,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
                 newAccount.setTransactionLimit(1000d);
                 newUser.getAccountsList().add(newAccount);
             } else {
-                throw new InvalidCurrencyNameException("La moneda enviada en la peticion no existe");
+                throw new InvalidResourceException("La moneda enviada en la peticion no existe");
             }
 
         }
