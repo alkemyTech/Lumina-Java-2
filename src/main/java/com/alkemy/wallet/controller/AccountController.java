@@ -2,6 +2,7 @@ package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.AccountForPostRequestDTO;
+import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.AccountForPostResponseDTO;
 import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
 import com.alkemy.wallet.service.service.AccountService;
@@ -35,4 +36,10 @@ public class AccountController {
     public ResponseEntity<AccountForPostResponseDTO> createUser(@RequestBody AccountForPostRequestDTO accountForPostRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.saveAccount((accountForPostRequestDTO)));
     }
+
+    @PatchMapping("/{idAccount}")
+    public void editTransactionLimit (@PathVariable Long idAccount, @RequestBody AccountForPostRequestDTO accountForPostRequestDTO ) throws Exception {
+        accountService.editTransactionLimit(idAccount,accountForPostRequestDTO);
+    }
+
 }
