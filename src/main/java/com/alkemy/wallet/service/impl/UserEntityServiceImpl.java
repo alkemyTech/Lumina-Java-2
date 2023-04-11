@@ -1,5 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.Exception.InvalidResourceException;
 import com.alkemy.wallet.Exception.UserNotFoundException;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
@@ -38,10 +39,6 @@ public class UserEntityServiceImpl implements UserEntityService {
         return ResponseEntity.status(HttpStatus.OK).body("Usuario eliminado exitosamente");
     }
 
-    /*@Override
-    public ResponseEntity<List<UserEntity>> getUserList() {
-        return ResponseEntity.status(HttpStatus.OK).body(userModelRepository.findAll());
-    }*/
 
     @Override
     public ResponseEntity<List<UserEntityResponseDTO>> getUserList(){
@@ -55,8 +52,12 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public UserEntityResponseDTO getUserById(Long idSender) {
-        return UserEntityMapping.convertEntityToDTO(userModelRepository.findById(idSender).get());
+    public UserEntityResponseDTO getUserById(Long userId) {
+        UserEntity newUser = userModelRepository.findById(userId).get();
+        if(newUser == null){
+            throw new InvalidResourceException("El usuario enviado en la peticion no existe");
+        }
+        return UserEntityMapping.convertEntityToDTO(newUser);
     }
 
     public ResponseEntity<UserEntityResponseDTO> createUser(UserEntityRequestDTO userEntityRequestDTO) {
@@ -72,8 +73,7 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public UserEntity getUserEntityById(Long userId) {
-        return userModelRepository.findById(userId).get();
+    public UserEntity getUserEntityById(Long userId) {return userModelRepository.findById(userId).get();
     }
 
     @Override

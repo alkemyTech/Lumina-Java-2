@@ -46,4 +46,11 @@ public class UserEntityController {
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTOO);
     }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserEntityResponseDTO> getUserById(@PathVariable ("userId") Long userId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(userEntityService.getUserById(userId));
+    }
+
 }
