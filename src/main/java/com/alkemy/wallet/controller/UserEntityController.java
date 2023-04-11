@@ -24,11 +24,6 @@ public class UserEntityController {
         return userEntityService.softDelete(userId);
     }
 
-    /*@GetMapping
-    public ResponseEntity<List<UserEntity>> getUserList() {
-        return userEntityService.getUserList();
-    }*/
-
     @GetMapping
     public ResponseEntity<List<UserEntityResponseDTO>> getUserList() {
         return userEntityService.getUserList();
@@ -51,4 +46,11 @@ public class UserEntityController {
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTOO);
     }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserEntityResponseDTO> getUserById(@PathVariable ("userId") Long userId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(userEntityService.getUserById(userId));
+    }
+
 }

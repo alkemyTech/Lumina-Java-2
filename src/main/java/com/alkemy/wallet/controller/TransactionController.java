@@ -1,6 +1,7 @@
 package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
+import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
 import com.alkemy.wallet.service.service.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,4 +56,12 @@ public class TransactionController {
         transactionService.editTransactionDescription(transactionId, transactionRequestDTO);
 
     }
+
+    @GetMapping("/transactions/{tansactionsId}")
+    public ResponseEntity<TransactionResponseDTO> trasactionForId(@PathVariable Long transactionsId){
+        return transactionService.trasactionForId(transactionsId);
+
+
+    }
+
 }
