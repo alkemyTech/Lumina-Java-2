@@ -129,4 +129,15 @@ public class AccountServiceImpl implements AccountService {
         return AccountForPostMapping.convertEntityToDto(accountRepository.save(newAccount));
     }
 
+    @Override
+    public void editTransactionLimit(Long idAccount, AccountForPostRequestDTO accountForPostRequestDTO) throws Exception {
+        AccountEntity accountEntity = accountRepository.findById(idAccount).get();
+        if (accountEntity == null){
+            throw new Exception("La cuenta especificada no existe");
+        }
+        accountEntity.setTransactionLimit(accountForPostRequestDTO.getTransactionLimit());
+        accountRepository.save(accountEntity);
+
+    }
+
 }

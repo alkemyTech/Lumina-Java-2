@@ -25,4 +25,5 @@ public interface AccountService {
 
     AccountForPostResponseDTO saveAccount(AccountForPostRequestDTO accountForPostRequestDTO);
 
+    void editTransactionLimit(Long idAccount, AccountForPostRequestDTO accountForPostRequestDTO) throws Exception;
 }
