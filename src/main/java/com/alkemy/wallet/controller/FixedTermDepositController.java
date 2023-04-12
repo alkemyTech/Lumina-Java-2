@@ -22,4 +22,14 @@ public class FixedTermDepositController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
         }
     }
+
+    @PostMapping("simulate")
+    public ResponseEntity<?> simulateFixedDeposit(@RequestBody FixedTermDepositRequestDTO fixedTermDepositRequestDTO){
+        try{
+            return ResponseEntity.ok(fixedTermDepositService.simulate(fixedTermDepositRequestDTO));
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getStackTrace());
+        }
+    }
 }
