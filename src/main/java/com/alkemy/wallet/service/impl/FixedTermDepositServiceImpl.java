@@ -53,6 +53,25 @@ public class FixedTermDepositServiceImpl implements FixedTermDepositService {
         return null;
     }
 
+    @Override
+    public FixedTermDepositResponseDTO simulate(FixedTermDepositRequestDTO fixedTermDepositRequestDTO) {
+        SimpleInterestCalculator interestCalculator = new SimpleInterestPerDayCalculator();
+        Double interest = interestCalculator.calculate(fixedTermDepositRequestDTO.getAmount(),
+                this.interestRate,
+                (int) ChronoUnit.DAYS.between(LocalDate.now(), fixedTermDepositRequestDTO.getClosingDate()));
+        Double total = interest + fixedTermDepositRequestDTO.getAmount();
+
+        FixedTermDepositResponseDTO ret = FixedTermDepositResponseDTO.builder()
+                .amount(fixedTermDepositRequestDTO.getAmount())
+                .creationDate(LocalDate.now())
+                .closingDate(fixedTermDepositRequestDTO.getClosingDate())
+                .interest(interest)
+                .total(total)
+                .build();
+
+        return ret;
+    }
+
     private void generateFixedDeposit(AccountEntity account, UserEntity user, FixedTermDepositRequestDTO fixedTermDepositRequestDTO) {
         SimpleInterestCalculator interestCalculator = new SimpleInterestPerDayCalculator();
         FixedTermDepositEntity fixedTermDeposit = FixedTermDepositEntity.builder()

@@ -11,4 +11,6 @@ public interface FixedTermDepositService {
     List<FixedTermDepositResponseDTO> getFixedTermDepositsDTObyAccountId(Long accountId);
 
     ResponseEntity<?> createFixedDeposit(Long accountId, Long userId, FixedTermDepositRequestDTO fixedTermDepositRequestDTO) throws Exception;
+
+    FixedTermDepositResponseDTO simulate(FixedTermDepositRequestDTO fixedTermDepositRequestDTO);
 }
