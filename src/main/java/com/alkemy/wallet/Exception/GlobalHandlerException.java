@@ -33,4 +33,11 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    @ExceptionHandler(InvalidAmmountException.class)
+    protected ResponseEntity<Object> handleAmmountConflict(
+            RuntimeException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
 }

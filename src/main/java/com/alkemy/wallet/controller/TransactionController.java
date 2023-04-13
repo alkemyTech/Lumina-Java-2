@@ -3,6 +3,7 @@ package com.alkemy.wallet.controller;
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
 import com.alkemy.wallet.service.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/transaction")
 public class TransactionController {
 
+    @Autowired
     private TransactionService transactionService;
 
     @PostMapping("/sendUsd/{idSender}")
@@ -57,11 +59,16 @@ public class TransactionController {
 
     }
 
-    @GetMapping("/transactions/{tansactionsId}")
+    @GetMapping("/transactions-id/{transactionsId}")
     public ResponseEntity<TransactionResponseDTO> trasactionForId(@PathVariable Long transactionsId){
         return transactionService.trasactionForId(transactionsId);
 
 
+    }
+
+    @PostMapping("/payment")
+    public ResponseEntity<TransactionResponseDTO>createTransactionPayment(@RequestBody TransactionRequestDTO transactionRequestDTO){
+        return transactionService.createTransactionPayment(transactionRequestDTO);
     }
 
 }

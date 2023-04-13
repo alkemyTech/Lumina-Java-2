@@ -1,5 +1,7 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.Exception.InvalidAmmountException;
+import com.alkemy.wallet.Exception.InvalidResourceException;
 import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
 import com.alkemy.wallet.mapping.TransactionMapping;
@@ -194,6 +196,22 @@ public class TransactionServiceImpl implements TransactionService {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(TransactionMapping
-                        .convertEntityToDto(transactionRepository.findById(transactionId).get()));
+                        .convertEntityToDto(transactionRepository.findById(transactionId).orElseThrow(()->new InvalidResourceException("La transaccion solicitada no existe"))));
+    }
+
+    @Override
+    public ResponseEntity<TransactionResponseDTO> createTransactionPayment(TransactionRequestDTO transactionRequestDTO) {
+        TransactionEntity newTransaction = new TransactionEntity();
+
+        if(transactionRequestDTO.getAmount()>0){
+           newTransaction = TransactionMapping.convertDtoToEntity(transactionRequestDTO);
+            AccountEntity account = accountService.getAccountEntityById(transactionRequestDTO.getReceiverAccountId());
+            account.setBalance(account.getBalance()-transactionRequestDTO.getAmount());
+            newTransaction.setAccountEntity(account);
+        }else{
+            throw new InvalidAmmountException("El monto ingresado es menor a cero");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body( TransactionMapping.convertEntityToDto(transactionRepository.save(newTransaction)));
     }
 }

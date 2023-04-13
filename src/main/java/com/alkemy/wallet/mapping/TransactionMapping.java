@@ -1,7 +1,10 @@
 package com.alkemy.wallet.mapping;
 
+import com.alkemy.wallet.Exception.InvalidResourceException;
+import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.TransactionResponseDTO;
 import com.alkemy.wallet.model.TransactionEntity;
+import com.alkemy.wallet.model.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,5 +27,27 @@ public class TransactionMapping {
             ret.add(convertEntityToDto(transactionEntity));
         }
         return ret;
+    }
+    public static Type getTypeTransaction(String type){
+        Type typeTransaction = null;
+        if(type.equals(Type.INCOME.name())){
+            typeTransaction = Type.INCOME;
+        } else if(type.equals(Type.DEPOSIT.name())){
+            typeTransaction = Type.DEPOSIT;
+        }else if(type.equals(Type.PAYMENT.name())){
+            typeTransaction = Type.PAYMENT;
+        }else{
+            throw new InvalidResourceException("El tipo de transaccion no existe");
+        }
+        return typeTransaction ;
+    }
+
+
+    public static TransactionEntity convertDtoToEntity(TransactionRequestDTO transactionRequestDTO) {
+        return TransactionEntity.builder()
+                .amount(transactionRequestDTO.getAmount())
+                .type(getTypeTransaction(transactionRequestDTO.getType()))
+                .description(transactionRequestDTO.getDescription())
+                .build();
     }
 }

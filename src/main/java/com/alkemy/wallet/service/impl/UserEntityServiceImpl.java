@@ -53,10 +53,8 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public UserEntityResponseDTO getUserById(Long userId) {
-        UserEntity newUser = userModelRepository.findById(userId).get();
-        if(newUser == null){
-            throw new InvalidResourceException("El usuario enviado en la peticion no existe");
-        }
+        UserEntity newUser = userModelRepository.findById(userId).orElseThrow(()-> new InvalidResourceException("El usuario enviado en la peticion no existe"));
+
         return UserEntityMapping.convertEntityToDTO(newUser);
     }
 
