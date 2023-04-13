@@ -17,4 +17,8 @@ public interface TransactionService {
     TransactionResponseDTO makeDeposit(TransactionRequestDTO transactionRequestDTO) throws Exception;
 
     ResponseEntity<TransactionResponseDTO> trasactionForId(long transactionId);
+
+    ResponseEntity<TransactionResponseDTO> createTransactionPayment(TransactionRequestDTO transactionRequestDTO);
+
+
 }
