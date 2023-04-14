@@ -38,7 +38,12 @@ public abstract class UserEntityMapping {
         return userEntityList.stream().map(u -> convertEntityToDTO(u)).collect(Collectors.toList());
 
     }
+ /*
+    public static List<?> convertEntityListToDtoListPage(Page<UserEntity> userEntityList) {
+        return userEntityList.stream().map(u -> convertEntityToDTO(u)).collect(Collectors.toList());
 
+    }
+*/
     public static List<UserEntity> convertDTOListToEntityList(List<UserEntityRequestDTO> userModelList) {
         return userModelList.stream().map(u -> convertDtoToEntity(u)).collect(Collectors.toList());
 
