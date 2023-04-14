@@ -12,10 +12,15 @@ import com.alkemy.wallet.repository.UserModelRepository;
 import com.alkemy.wallet.service.service.RoleService;
 import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +55,19 @@ public class UserEntityServiceImpl implements UserEntityService {
         }
       return ResponseEntity.status(HttpStatus.OK).body(userEntitiesDTOs);
     }
+
+    @Override
+    public Page<UserEntityResponseDTO> getUserList(Pageable pageable) throws Exception {
+        try{
+            Page<UserEntity> userPage = userModelRepository.findAll(pageable);
+            List<UserEntityResponseDTO> usersList = UserEntityMapping.convertEntityListToDtoList(userPage.getContent());
+            Page<UserEntityResponseDTO> usersPage = new PageImpl<UserEntityResponseDTO>(usersList,pageable,userPage.getTotalElements());
+            return usersPage;
+        }catch (Exception e){
+            throw new Exception("Usuarios no encontrados");
+        }
+    }
+
 
     @Override
     public UserEntityResponseDTO getUserById(Long userId) {

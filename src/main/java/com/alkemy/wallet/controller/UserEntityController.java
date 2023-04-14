@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,6 +28,16 @@ public class UserEntityController {
     @GetMapping
     public ResponseEntity<List<UserEntityResponseDTO>> getUserList() {
         return userEntityService.getUserList();
+    }
+
+    @GetMapping("/paged")
+    ResponseEntity<?> getUserList(Pageable pageable) throws Exception {
+        try{
+            return  ResponseEntity.status(HttpStatus.OK).body(userEntityService.getUserList(pageable));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 
     @PostMapping("auth/register")
