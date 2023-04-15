@@ -2,11 +2,11 @@ package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.AccountForPostRequestDTO;
-import com.alkemy.wallet.dto.requestDto.TransactionRequestDTO;
 import com.alkemy.wallet.dto.responseDto.AccountForPostResponseDTO;
 import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
 import com.alkemy.wallet.service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +40,15 @@ public class AccountController {
     @PatchMapping("/{idAccount}")
     public void editTransactionLimit (@PathVariable Long idAccount, @RequestBody AccountForPostRequestDTO accountForPostRequestDTO ) throws Exception {
         accountService.editTransactionLimit(idAccount,accountForPostRequestDTO);
+    }
+
+    @GetMapping("/paged")
+    ResponseEntity<?> getAccoutList(Pageable pageable) throws Exception {
+        try{
+            return  ResponseEntity.status(HttpStatus.OK).body(accountService.getAccountList(pageable));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 }
