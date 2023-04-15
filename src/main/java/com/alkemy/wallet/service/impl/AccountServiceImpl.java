@@ -5,9 +5,11 @@ import com.alkemy.wallet.dto.AccountDTO;
 import com.alkemy.wallet.dto.requestDto.AccountForPostRequestDTO;
 import com.alkemy.wallet.dto.responseDto.AccountForPostResponseDTO;
 import com.alkemy.wallet.dto.responseDto.BalanceResponseDTO;
+import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
 import com.alkemy.wallet.mapping.AccountForPostMapping;
 import com.alkemy.wallet.mapping.AccountMapping;
 import com.alkemy.wallet.mapping.FixedTermDepositMapping;
+import com.alkemy.wallet.mapping.UserEntityMapping;
 import com.alkemy.wallet.model.AccountEntity;
 import com.alkemy.wallet.model.Currency;
 import com.alkemy.wallet.model.FixedTermDepositEntity;
@@ -16,6 +18,9 @@ import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.service.service.AccountService;
 import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -136,6 +141,18 @@ public class AccountServiceImpl implements AccountService {
         accountEntity.setTransactionLimit(accountForPostRequestDTO.getTransactionLimit());
         accountRepository.save(accountEntity);
 
+    }
+
+    @Override
+    public Page<AccountForPostResponseDTO> getAccountList(Pageable pageable) throws Exception {
+        try{
+            Page<AccountEntity> accountPage = accountRepository.findAll(pageable);
+            List<AccountForPostResponseDTO> accountsList = AccountForPostMapping.convertEntityListToDtoList(accountPage.getContent());
+            Page<AccountForPostResponseDTO> accountsPage = new PageImpl<AccountForPostResponseDTO>(accountsList,pageable,accountPage.getTotalElements());
+            return accountsPage;
+        }catch (Exception e){
+            throw new Exception("Usuarios no encontrados");
+        }
     }
 
 }
