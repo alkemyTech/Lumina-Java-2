@@ -2,12 +2,14 @@ package com.alkemy.wallet.mapping;
 
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
+import com.alkemy.wallet.dto.responseDto.UserEntityTransactionsDTO;
 import com.alkemy.wallet.model.UserEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class UserEntityMapping {
+
     public static UserEntityResponseDTO convertEntityToDTO(UserEntity userEntity) {
         return UserEntityResponseDTO.builder()
                 .userId(userEntity.getUserId())
@@ -57,6 +59,14 @@ public abstract class UserEntityMapping {
             user.setLastName(dto.getLastName());
         }
         return user;
+    }
+
+    public static UserEntityTransactionsDTO convertEntityTransactionsToDTO(UserEntity userEntity) {
+        return UserEntityTransactionsDTO.builder()
+                .userId(userEntity.getUserId())
+                .firstName(userEntity.getFirstName())
+                .accountsList(AccountMapping.convertAccountTransactionsListToDtoList(userEntity.getAccountsList()))
+                .build();
     }
 
 }

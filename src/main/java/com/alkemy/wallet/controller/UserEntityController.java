@@ -3,9 +3,11 @@ package com.alkemy.wallet.controller;
 import com.alkemy.wallet.Exception.UserNotFoundException;
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
+import com.alkemy.wallet.dto.responseDto.UserEntityTransactionsDTO;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.service.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +63,17 @@ public class UserEntityController {
     public ResponseEntity<UserEntityResponseDTO> getUserById(@PathVariable ("userId") Long userId) {
 
         return ResponseEntity.status(HttpStatus.OK).body(userEntityService.getUserById(userId));
+    }
+
+    @GetMapping("/users-transactions")
+    public ResponseEntity<List<UserEntityTransactionsDTO>> getTransactions4User(){
+        return ResponseEntity.status(HttpStatus.OK).body(userEntityService.getTransactions4Users());
+    }
+
+    //Con paginado
+    @GetMapping("/users-transactions/paged")
+    public ResponseEntity<?> getTransactions4UserPaged(@PageableDefault(size = 10) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(userEntityService.getTransactions4Users(pageable));
     }
 
 }

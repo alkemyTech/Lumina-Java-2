@@ -1,6 +1,7 @@
 package com.alkemy.wallet.mapping;
 
 import com.alkemy.wallet.dto.AccountDTO;
+import com.alkemy.wallet.dto.responseDto.AccountTransactionsDTO;
 import com.alkemy.wallet.model.AccountEntity;
 
 import java.util.ArrayList;
@@ -45,5 +46,20 @@ public abstract class AccountMapping {
             ret.add(convertDtoToEntity(accountDto));
         }
         return ret;
+    }
+
+    public static List<AccountTransactionsDTO> convertAccountTransactionsListToDtoList(List<AccountEntity> accountEntityList){
+        List<AccountTransactionsDTO> accountTransactionsDTOSList = new ArrayList<>();
+        for(AccountEntity accountEntity : accountEntityList){
+            accountTransactionsDTOSList.add(convertAccountTransactionsToDto(accountEntity));
+        }
+        return accountTransactionsDTOSList;
+    }
+
+    public static AccountTransactionsDTO convertAccountTransactionsToDto(AccountEntity accountEntity){
+        return AccountTransactionsDTO.builder()
+                .accountId(accountEntity.getAccountId())
+                .transactionEntityList(TransactionMapping.convertTransactions4AccountListToDtoList(accountEntity.getTransactionEntityList()))
+                .build();
     }
 }

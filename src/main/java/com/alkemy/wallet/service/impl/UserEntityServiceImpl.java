@@ -2,6 +2,7 @@ package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.Exception.InvalidResourceException;
 import com.alkemy.wallet.Exception.UserNotFoundException;
+import com.alkemy.wallet.dto.responseDto.UserEntityTransactionsDTO;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
@@ -11,6 +12,7 @@ import com.alkemy.wallet.model.Currency;
 import com.alkemy.wallet.repository.UserModelRepository;
 import com.alkemy.wallet.service.service.RoleService;
 import com.alkemy.wallet.service.service.UserEntityService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -102,6 +104,30 @@ public class UserEntityServiceImpl implements UserEntityService {
         UserEntity savedUser = userModelRepository.save(refreshedUser);
         UserEntityResponseDTO result = userEntityMapping.convertEntityToDTO(savedUser);
         return result;
+    }
+
+    @Override
+    public List<UserEntityTransactionsDTO> getTransactions4Users() {
+        List<UserEntity> userEntitiesList = userModelRepository.findAll();
+        List<UserEntityTransactionsDTO> userEntityTransactionsDTOList = new ArrayList<>();
+        for (UserEntity userEntity : userEntitiesList){
+            UserEntityTransactionsDTO dto = UserEntityMapping.convertEntityTransactionsToDTO(userEntity);
+            userEntityTransactionsDTOList.add(dto);
+        }
+        return userEntityTransactionsDTOList;
+    }
+
+    //Con paginado
+    @Override
+    public Page<UserEntityTransactionsDTO> getTransactions4Users(Pageable pageable) {
+        Page<UserEntity> userEntitiesList = userModelRepository.findAll(pageable);
+        List<UserEntityTransactionsDTO> userEntityTransactionsDTOList = new ArrayList<>();
+        for (UserEntity userEntity : userEntitiesList){
+            UserEntityTransactionsDTO dto = UserEntityMapping.convertEntityTransactionsToDTO(userEntity);
+            userEntityTransactionsDTOList.add(dto);
+        }
+        Page<UserEntityTransactionsDTO> usersPage = new PageImpl<>(userEntityTransactionsDTOList, pageable, userEntitiesList.getTotalElements());
+        return usersPage;
     }
 
     private void setAccountToUser(UserEntity user) {

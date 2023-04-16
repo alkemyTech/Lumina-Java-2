@@ -3,6 +3,7 @@ package com.alkemy.wallet.service.service;
 import com.alkemy.wallet.Exception.UserNotFoundException;
 import com.alkemy.wallet.dto.requestDto.UserEntityRequestDTO;
 import com.alkemy.wallet.dto.responseDto.UserEntityResponseDTO;
+import com.alkemy.wallet.dto.responseDto.UserEntityTransactionsDTO;
 import com.alkemy.wallet.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +20,9 @@ public interface UserEntityService {
     ResponseEntity<UserEntityResponseDTO> createUser (UserEntityRequestDTO userEntityRequestDTO);
     UserEntity getUserEntityById(Long userId);
     UserEntityResponseDTO updateUser (Long userId, UserEntityRequestDTO dto) throws UserNotFoundException;
+
+     List<UserEntityTransactionsDTO> getTransactions4Users();
+
+     //Con paginado
+     Page<UserEntityTransactionsDTO> getTransactions4Users(Pageable pageable);
 }
